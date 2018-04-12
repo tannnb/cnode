@@ -21,7 +21,13 @@ export default new Router({
           children:[
             {
               path: 'all',
-              component: () => import('@/components/home/all/all')
+              component: () => import('@/components/home/all/all'),
+              children:[
+                {
+                  path: ':id',
+                  component: () => import('@/components/detail/detail')
+                }
+              ]
             },
             {
               path: 'ask',

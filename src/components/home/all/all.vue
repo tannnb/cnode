@@ -6,11 +6,15 @@
       :listenScroll="listenScroll"
       :data="topicsData"
       :options="options"
+      @pulling-up="pullingup"
       @pulling-down="pullingdown"
     >
-      <div class="item" v-for="(items,index) in topicsData">
+      <div class="item"
+           @click="selectItem(items)"
+           v-for="(items,index) in topicsData"
+           :key="items.id">
         <h2 class="title">
-          <span :class=" items.top? 'icon-top':iconMode(items.tab) "></span>
+          <span class="icon" :class=" items.top? 'icon-top':iconMode(items.tab) "></span>
           <span class="name">{{items.title}}</span>
         </h2>
         <div class="descript">
@@ -28,12 +32,13 @@
         </div>
       </div>
     </cube-scroll>
-
+    <router-view></router-view>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import {Topics} from 'api/all'
+  import {mapMutations} from 'vuex'
 
 
   const ERR_OK = true
@@ -44,10 +49,19 @@
       return {
         topicsData: [],
         refreshDelay: 1000,
+        hasMove:true,
+        page:1,
         listenScroll:true,
         options: {             // 上拉加载
           pullDownRefresh: {
             txt: '刷新成功！'
+          },
+          pullUpLoad: {
+            threshold: 0,
+            txt: {
+              more: '正在加载中',
+              noMore: '没有更多了!'
+            }
           }
         }
       }
@@ -57,17 +71,25 @@
     },
 
     methods: {
+      ...mapMutations({
+        'set_author':'SET_AUTHOR'
+      }),
+
       _Topics(){
+        this.hasMove = true;
         Topics().then((res) => {
           if (res.data.success === ERR_OK) {
             this.topicsData = res.data.data
             console.log(this.topicsData)
+            this._checkMore(this.topicsData)
           }
         })
       },
+
       iconMode(icon){
         return icon == 'ask' ? 'icon-ask' : icon == 'share' ? 'icon-share' : icon == 'good' ? 'icon-good' : icon == 'job' ? 'icon-job' : ''
       },
+
       pullingdown(){
         setTimeout(() => {
           if (Math.random() > 0.5) {
@@ -76,6 +98,34 @@
             this.$refs.scroll.forceUpdate()
           }
         }, 1000)
+      },
+
+      // 上拉加载
+      pullingup(){
+        if (!this.hasMove) {
+          this.$refs.scroll.forceUpdate()
+          return false;
+        }
+        this.page++;
+        Topics(this.page).then((res) => {
+          if (res.data.success === ERR_OK) {
+            this.topicsData =  this.topicsData.concat(res.data.data)
+            this._checkMore(this.topicsData)
+          }
+        })
+      },
+
+      selectItem(item){
+          this.set_author(item)
+          this.$router.push({
+            path:`/index/home/all/${item.id}`
+          })
+      },
+
+      _checkMore(item){
+        if (!item.length) {
+          this.hasMove = false
+        }
       },
 
       formatDate(time){
@@ -114,14 +164,16 @@
   .item {
     padding 12px
     border-bottom 1px solid rgba(7, 17, 27, .1)
+    &::active{
+      background #cbcbcb
+    }
     .title {
-      text-overflow ellipsis
-      overflow hidden
-      white-space nowrap
+      display flex
+      align-items center
       font-size 0
       .icon-top {
         vertical-align middle
-        font-size 24px
+        font-size 22px
         color: #ff361e
       }
       .icon-share {
@@ -135,8 +187,16 @@
         color: #ff361e
       }
 
+      .icon{
+        flex:0 0 50
+        width 50px
+        justify-content center
+        margin 0 auto
+      }
       .name {
+        flex: 1
         vertical-align middle
+        line-height 24px
         font-size 18px
       }
 
@@ -190,3 +250,5 @@
   }
 
 </style>
+
+

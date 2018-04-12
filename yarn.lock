@@ -5659,6 +5659,10 @@ vue-hot-reload-api@^2.2.0:
   version "2.3.0"
   resolved "http://registry.npm.taobao.org/vue-hot-reload-api/download/vue-hot-reload-api-2.3.0.tgz#97976142405d13d8efae154749e88c4e358cf926"
 
+vue-lazy@^1.0.0:
+  version "1.0.0"
+  resolved "http://registry.npm.taobao.org/vue-lazy/download/vue-lazy-1.0.0.tgz#ea779065252fcce185bd06f8efa3cd1081dd424f"
+
 vue-loader@^13.3.0:
   version "13.7.1"
   resolved "http://registry.npm.taobao.org/vue-loader/download/vue-loader-13.7.1.tgz#d9009d0abd392b4efe8b8fb1f542f6723b02dd3a"
@@ -5702,6 +5706,10 @@ vue-template-es2015-compiler@^1.6.0:
 vue@^2.5.2:
   version "2.5.16"
   resolved "http://registry.npm.taobao.org/vue/download/vue-2.5.16.tgz#07edb75e8412aaeed871ebafa99f4672584a0085"
+
+vuex@^3.0.1:
+  version "3.0.1"
+  resolved "http://registry.npm.taobao.org/vuex/download/vuex-3.0.1.tgz#e761352ebe0af537d4bb755a9b9dc4be3df7efd2"
 
 watchpack@^1.4.0:
   version "1.5.0"

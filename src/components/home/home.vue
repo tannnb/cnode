@@ -4,9 +4,9 @@
     <div class="nav-wrapper">
       <ul class="selectItem" ref="selectItem">
         <router-link tag="li" class="item" to="/index/home/all"> <span>全部</span> </router-link>
-        <router-link tag="li" class="item" to="/index/home/ask"> <span>精华</span> </router-link>
+        <router-link tag="li" class="item" to="/index/home/good"> <span>精华</span> </router-link>
         <router-link tag="li" class="item" to="/index/home/share"> <span>分享</span> </router-link>
-        <router-link tag="li" class="item" to="/index/home/good"> <span>问答</span> </router-link>
+        <router-link tag="li" class="item" to="/index/home/ask"> <span>问答</span> </router-link>
         <router-link tag="li" class="item" to="/index/home/job"> <span>招聘</span> </router-link>
       </ul>
     </div>

@@ -1,18 +1,11 @@
 <template>
   <div class="index">
 
-    <div class="header">
-      <!-- <span class="user">
-          <i class="cubeic-alert"></i>
-       </span>-->
-      <h1 class="title">vue-cnode</h1>
-    </div>
+    <div class="header"><h1 class="title">vue-cnode</h1></div>
 
     <div class="ocontent"><router-view/></div>
 
-    <div class="footer">
-      <tab></tab>
-    </div>
+    <div class="footer"><tab></tab></div>
 
   </div>
 </template>
@@ -69,5 +62,6 @@
     left: 0
     bottom: 0
     width 100%
+    z-index 10
   }
 </style>
