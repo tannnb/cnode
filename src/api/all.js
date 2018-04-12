@@ -20,10 +20,11 @@ export function Topics(page=1) {
 }
 
 export function Topics_detail(id) {
-  const url = `https://cnodejs.org/api/v1/topics/${id}`
+  const url = `https://cnodejs.org/api/v1/topic/${id}`
 
   const data = {
     mdrender:true,
+    accesstoken:'',
     1522747349170:''
   }
 

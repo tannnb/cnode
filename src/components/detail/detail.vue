@@ -7,7 +7,34 @@ sfsdffsd
 </template>
 
 <script type="text/ecmascript-6">
-    export default {};
+
+  import {Topics_detail} from 'api/all'
+  import {mapGetters} from 'vuex'
+
+  const ERR_OK = true
+
+    export default {
+        created(){
+          this._Topics_detail()
+        },
+        computed:{
+          ...mapGetters(['author'])
+        },
+        methods:{
+          _Topics_detail(){
+            if(!this.author.id){
+                this.$router.back()
+              return;
+            }
+           Topics_detail(this.author.id).then(res => {
+               if(res.data.success === ERR_OK){
+                   this.detail = res.data.data
+                 console.log(this.detail)
+               }
+            })
+          }
+        }
+    };
 
 </script>
 
