@@ -9,7 +9,7 @@
       </div>
 
       <div class="content-wrapper">
-        <cube-scroll :data="detailScroll">
+        <cube-scroll ref="scroll" :data="detailScroll">
 
           <div class="title-wrapper">{{detail.title}}</div>
 
@@ -26,6 +26,26 @@
           </div>
 
           <section class='markdown-body topic-content' v-html="detail.content"></section>
+
+          <div class="title-reply">共 {{detail.reply_count}} 条回复 </div>
+
+          <ul>
+            <li
+              class="selectItem"
+              v-for="(items,index) in detail.replies"
+              v-if="items.author">
+              <div class="desc">
+                <div class="avatar"><img width="30" :src="items.author.avatar_url" alt=""></div>
+                <div class="name">
+                  <span>{{items.author.loginname}}</span> {{ items.create_at | _formatDate }}
+
+                </div>
+                <div class="number">#{{index}}</div>
+              </div>
+              <div class="reply_content" v-html="items.content"></div>
+            </li>
+          </ul>
+
 
         </cube-scroll>
       </div>
@@ -56,7 +76,14 @@
       this._Topics_detail()
     },
     mounted(){
-
+      this.$nextTick(() => {
+        this.$refs.scroll.forceUpdate()
+      })
+    },
+    watch: {
+      detailScroll(newValue){
+        newValue && this.$refs.scroll.forceUpdate()
+      }
     },
     computed: {
       ...mapGetters(['author'])
@@ -174,29 +201,30 @@
       }
       .visit {
         position: absolute
-        right 10px
-        top: 4
+        right 14px
+        top: 4px
         .tag {
           padding 4px 0
           font-size 13px
           border-radius 4px
           text-align center
           color: #fff
-          &.top{
+          &.top {
             background #ff572d
           }
-          &.ask{
+          &.ask {
             background #ff572d
           }
-          &.share{
+          &.share {
             background #42cb3f
           }
-          &.good{
+          &.good {
             background #bf62ff
           }
         }
         .readNum {
-          padding-top 6px
+          display inline-block
+          margin-top 6px
           font-size 14px
           color: #000
         }
@@ -215,6 +243,41 @@
 
     .markdown-body {
       padding 10px 12px
+    }
+    .title-reply {
+      padding: 5px 10px;
+      line-height: 24px;
+      border-left: 8px solid #80bd01;
+      background: #eee;
+      font-weight: 400;
+      font-size: 14px;
+    }
+
+    .selectItem {
+      padding 12px
+      border-bottom 1px solid rgba(7,17,27,.1)
+      .desc {
+        position: relative
+        display flex
+        .avatar {
+          flex 0 0 50
+          width 50px
+        }
+        .name {
+          flex:1
+        }
+        .number {
+          position: absolute
+          right 10px
+          top:4px
+        }
+      }
+      .reply_content {
+        padding-left 50px
+        font-size 14px
+        line-height 18px
+        color: #737373
+      }
     }
 
   }

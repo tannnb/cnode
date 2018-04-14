@@ -650,3 +650,7 @@
   position: relative;
   border-color: #4078c0;
 }
+
+.markdown-text p img{
+  width: 100%;
+}
