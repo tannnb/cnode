@@ -19,7 +19,7 @@ export function Topics(page=1) {
   })
 }
 
-export function Topics_detail(id) {
+export function   Topics_detail(id) {
   const url = `https://cnodejs.org/api/v1/topic/${id}`
 
   const data = {
@@ -27,7 +27,6 @@ export function Topics_detail(id) {
     accesstoken:'',
     1522747349170:''
   }
-
   return axios.get(url, {
     params:data
   }).then((res) =>{

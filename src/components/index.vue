@@ -62,6 +62,6 @@
     left: 0
     bottom: 0
     width 100%
-    z-index 10
+    z-index -1
   }
 </style>

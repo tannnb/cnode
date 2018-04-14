@@ -25,8 +25,8 @@
               <div class="Reply"> {{items.reply_count}}/{{items.visit_count}} </div>
             </div>
             <div class="b">
-              <div class="time-start">{{formatDate(items.create_at)}}</div>
-              <div class="time-sec">{{formatDate(items.last_reply_at)}}</div>
+              <div class="time-start">{{ items.create_at | _formatDate}}</div>
+              <div class="time-sec">{{items.last_reply_at | _formatDate}}</div>
             </div>
           </div>
         </div>
@@ -39,12 +39,13 @@
 <script type="text/ecmascript-6">
   import {Topics} from 'api/all'
   import {mapMutations} from 'vuex'
+  import {playlistMixin} from 'common/js/mixins'
 
 
   const ERR_OK = true
 
   export default {
-    name: '',
+    mixins:[playlistMixin],
     data() {
       return {
         topicsData: [],
@@ -80,7 +81,6 @@
         Topics().then((res) => {
           if (res.data.success === ERR_OK) {
             this.topicsData = res.data.data
-            console.log(this.topicsData)
             this._checkMore(this.topicsData)
           }
         })
@@ -126,27 +126,8 @@
         if (!item.length) {
           this.hasMove = false
         }
-      },
-
-      formatDate(time){
-        var date = new Date(time);
-        var time = new Date().getTime() - date.getTime(); //现在的时间-传入的时间 = 相差的时间（单位 = 毫秒）
-        if (time < 0) {
-          return '';
-        } else if (time / 1000 < 60) {
-          return '刚刚';
-        } else if ((time / 60000) < 60) {
-          return parseInt((time / 60000)) + '分钟前';
-        } else if ((time / 3600000) < 24) {
-          return parseInt(time / 3600000) + '小时前';
-        } else if ((time / 86400000) < 31) {
-          return parseInt(time / 86400000) + '天前';
-        } else if ((time / 2592000000) < 12) {
-          return parseInt(time / 2592000000) + '月前';
-        } else {
-          return parseInt(time / 31536000000) + '年前';
-        }
       }
+
     }
   }
 </script>

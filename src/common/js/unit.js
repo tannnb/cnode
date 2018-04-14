@@ -1,8 +1,9 @@
 
 
-export function formatDate (time) {
-  var date = new Date(time);
-  var time = new Date().getTime() - date.getTime(); //现在的时间-传入的时间 = 相差的时间（单位 = 毫秒）
+export  function formatDate (times) {
+  var date = new Date(times);
+  //现在的时间-传入的时间 = 相差的时间（单位 = 毫秒）
+  var time = new Date().getTime() - date.getTime();
   if (time < 0) {
     return '';
   } else if (time / 1000 < 60) {
