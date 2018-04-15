@@ -8,7 +8,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import detail from '../../components/detail/detail.vue'
+  import detail from '../../../../components/detail/detail.vue'
   import {Topics_detail} from 'api/all'
   import {mapGetters} from 'vuex'
 

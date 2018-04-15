@@ -11,6 +11,43 @@ export default new Router({
     },
     {
       path: '/index',
+      component: () => import('@/components/index/index'),
+      redirect: '/index/all',
+      children:[
+        {
+          path: 'all',
+          component: () => import('@/components/home/all/all'),
+        },
+        {
+          path: 'good',
+          component: () => import('@/components/home/good/good'),
+        },
+        {
+          path: 'share',
+          component: () => import('@/components/home/share/share'),
+        },
+        {
+          path: 'ask',
+          component: () => import('@/components/home/ask/ask'),
+        },
+        {
+          path: 'job',
+          component: () => import('@/components/home/job/job'),
+        }
+      ]
+    }
+
+  ]
+})
+
+/*export default new Router({
+  routes: [
+    {
+      path: '/',
+      redirect: '/index'
+    },
+    {
+      path: '/index',
       component: () => import('@/components/index'),
       redirect: '/index/home',
       children: [
@@ -25,7 +62,7 @@ export default new Router({
               children:[
                 {
                   path: ':id',
-                  component: () => import('@/components/base-detail/base-detail')
+                  component: () => import('@/components/home/all/base-detail/base-detail')
                 }
               ]
             },
@@ -63,4 +100,4 @@ export default new Router({
     }
 
   ]
-})
+})*/

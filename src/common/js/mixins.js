@@ -8,7 +8,7 @@ export const commonMixin = {
   }
 }
 
-export const detailMixin = {
+export const filterMixin = {
   filters:{
     _formatDate(times){
       return formatDate(times)
