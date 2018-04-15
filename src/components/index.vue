@@ -3,7 +3,9 @@
 
     <div class="header"><h1 class="title">vue-cnode</h1></div>
 
-    <div class="ocontent"><router-view/></div>
+    <div class="ocontent">
+      <keep-alive><router-view/></keep-alive>
+     </div>
 
     <div class="footer"><tab></tab></div>
 

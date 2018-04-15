@@ -25,7 +25,7 @@ export default new Router({
               children:[
                 {
                   path: ':id',
-                  component: () => import('@/components/detail/detail')
+                  component: () => import('@/components/base-detail/base-detail')
                 }
               ]
             },

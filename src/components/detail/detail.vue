@@ -1,112 +1,93 @@
 <template>
-  <transition name="slide">
-    <div class="detail-wrapper">
+  <div>
 
+    <div class="header">
+      <span class="user" @click="goBack()"> <i class="cubeic-back"></i> </span>
+      <h1 class="title">详情</h1>
+    </div>
+    <div class="content-wrapper">
+      <cube-scroll
+        :refreshDelay="refreshDelay"
+        ref="scroll"
+        :data="detailScroll">
 
-      <div class="header">
-        <span class="user" @click="boback"> <i class="cubeic-back"></i> </span>
-        <h1 class="title">详情</h1>
-      </div>
+        <div class="title-wrapper">{{detail.title}}</div>
 
-      <div class="content-wrapper">
-        <cube-scroll ref="scroll" :data="detailScroll">
-
-          <div class="title-wrapper">{{detail.title}}</div>
-
-          <div v-if="detail.author" class="detail-avatar">
-            <div class="avatar"><img width="50" :src="detail.author.avatar_url" alt=""></div>
-            <div class="descript">
-              <div class="name">{{detail.author.loginname}} </div>
-              <div class="replyTime">发布于:{{detail.create_at | _formatDate}}</div>
-            </div>
-            <div class="visit">
-              <div class="tag" :class=" detail.top? 'top':detail.tab ">{{iconMode(detail)}}</div>
-              <span class="readNum">{{detail.visit_count}}次浏览</span>
-            </div>
+        <div v-if="detail.author" class="detail-avatar">
+          <div class="avatar"><img width="50" :src="detail.author.avatar_url" alt=""></div>
+          <div class="descript">
+            <div class="name">{{detail.author.loginname}} </div>
+            <div class="replyTime">发布于:{{detail.create_at | _formatDate}}</div>
           </div>
+          <div class="visit">
+            <div class="tag" :class=" detail.top? 'top':detail.tab ">{{iconMode(detail)}}</div>
+            <span class="readNum">{{detail.visit_count}}次浏览</span>
+          </div>
+        </div>
 
-          <section class='markdown-body topic-content' v-html="detail.content"></section>
+        <section class='markdown-body topic-content' v-html="detail.content"></section>
 
-          <div class="title-reply">共 {{detail.reply_count}} 条回复 </div>
+        <div class="title-reply">共 {{detail.reply_count}} 条回复 </div>
 
-          <ul>
-            <li
-              class="selectItem"
-              v-for="(items,index) in detail.replies"
-              v-if="items.author">
-              <div class="desc">
-                <div class="avatar"><img width="30" :src="items.author.avatar_url" alt=""></div>
-                <div class="name">
-                  <span>{{items.author.loginname}}</span> {{ items.create_at | _formatDate }}
+        <ul class="selectItem-wrapper">
+          <li
+            class="selectItem"
+            v-for="(items,index) in detail.replies"
+            v-if="items.author">
+            <div class="desc">
+              <div class="avatar"><img width="30" :src="items.author.avatar_url" alt=""></div>
+              <div class="name">
+                <span>{{items.author.loginname}}</span> {{ items.create_at | _formatDate }}
 
                 </div>
-                <div class="number">#{{index}}</div>
-              </div>
-              <div class="reply_content" v-html="items.content"></div>
-            </li>
-          </ul>
+              <div class="number">#{{index}}</div>
+            </div>
+            <div class="reply_content" v-html="items.content"></div>
+          </li>
+        </ul>
 
 
-        </cube-scroll>
-      </div>
-
-
+      </cube-scroll>
     </div>
-  </transition>
+
+  </div>
 </template>
 
 <script type="text/ecmascript-6">
   require('../../common/stylus/markdown.css');
 
-  import {Topics_detail} from 'api/all'
-  import {mapGetters} from 'vuex'
-  import {playlistMixin} from 'common/js/mixins'
+  import {detailMixin,commonMixin} from 'common/js/mixins'
 
-  const ERR_OK = true
 
   export default {
-    mixins: [playlistMixin],
-    data(){
-      return {
-        detail: {},
-        detailScroll: []
+    mixins: [detailMixin,commonMixin],
+    props: {
+      detail: {
+        type: Object,
+        default: {}
+      },
+      detailScroll: {
+        type: Array,
+        default: []
       }
     },
-    created(){
-      this._Topics_detail()
+    data(){
+        return {
+          refreshDelay:1000
+        }
     },
     mounted(){
-      this.$nextTick(() => {
+      setTimeout(() => {
         this.$refs.scroll.forceUpdate()
-      })
+      }, 100)
     },
     watch: {
       detailScroll(newValue){
         newValue && this.$refs.scroll.forceUpdate()
       }
     },
-    computed: {
-      ...mapGetters(['author'])
-    },
+
     methods: {
-      boback(){
-        this.$router.back()
-      },
-
-      async _Topics_detail(){
-        if (!this.author.id) {
-          this.$router.back()
-          return;
-        }
-        await Topics_detail(this.author.id).then(res => {
-          if (res.data.success === ERR_OK) {
-            this.detail = res.data.data
-            this.detailScroll.push(res.data.data)
-            console.log(this.detail)
-          }
-        })
-      },
-
       iconMode(item){
         if (item.top) {
           return '置顶'
@@ -121,22 +102,6 @@
 
 <style scoped lang="stylus" rel="stylesheet/stylus" type="text/stylus">
 
-  .detail-wrapper {
-    position: fixed
-    top: 0
-    bottom: 0
-    width 100%
-    z-index 999
-    overflow hidden
-    background #fff
-    &.slide-enter-active, &.slide-leave-active {
-      transition: all .2s
-    }
-    &.slide-enter, &.slide-leave-to {
-      transform: translate3d(100%, 0, 0)
-    }
-
-  }
 
   .header {
     position relative
@@ -253,9 +218,12 @@
       font-size: 14px;
     }
 
+    .selectItem-wrapper {
+      padding-bottom 16px
+    }
     .selectItem {
       padding 12px
-      border-bottom 1px solid rgba(7,17,27,.1)
+      border-bottom 1px solid rgba(7, 17, 27, .1)
       .desc {
         position: relative
         display flex
@@ -264,19 +232,23 @@
           width 50px
         }
         .name {
-          flex:1
+          flex: 1
+          span {
+            color #3ab3ff
+          }
         }
         .number {
           position: absolute
           right 10px
-          top:4px
+          top: 4px
+          color #a0a0a0
         }
       }
       .reply_content {
         padding-left 50px
         font-size 14px
-        line-height 18px
-        color: #737373
+        line-height 22px
+        color: #2d2c2c
       }
     }
 

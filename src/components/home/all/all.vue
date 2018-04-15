@@ -7,7 +7,7 @@
       :data="topicsData"
       :options="options"
       @pulling-up="pullingup"
-      @pulling-down="pullingdown"
+      @pulling-down="_Topics"
     >
       <div class="item"
            @click="selectItem(items)"
@@ -32,6 +32,7 @@
         </div>
       </div>
     </cube-scroll>
+
     <router-view></router-view>
   </div>
 </template>
@@ -39,13 +40,13 @@
 <script type="text/ecmascript-6">
   import {Topics} from 'api/all'
   import {mapMutations} from 'vuex'
-  import {playlistMixin} from 'common/js/mixins'
+  import {detailMixin} from 'common/js/mixins'
 
 
   const ERR_OK = true
 
   export default {
-    mixins:[playlistMixin],
+    mixins:[detailMixin],
     data() {
       return {
         topicsData: [],
@@ -90,16 +91,6 @@
         return icon == 'ask' ? 'icon-ask' : icon == 'share' ? 'icon-share' : icon == 'good' ? 'icon-good' : icon == 'job' ? 'icon-job' : ''
       },
 
-      pullingdown(){
-        setTimeout(() => {
-          if (Math.random() > 0.5) {
-            this.$refs.scroll.forceUpdate()
-          } else {
-            this.$refs.scroll.forceUpdate()
-          }
-        }, 1000)
-      },
-
       // 上拉加载
       pullingup(){
         if (!this.hasMove) {
@@ -128,6 +119,12 @@
         }
       }
 
+    },
+    destroyed(){
+     this.options = {
+       pullDownRefresh:false,
+       pullUpLoad:false
+     }
     }
   }
 </script>
