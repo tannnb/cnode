@@ -3,8 +3,8 @@
 
     <div class="index-header">
       <div class="top">
-        <div class="icon-wrapper"><i class="icon-user"></i></div>
-        <div class="title">CNODE</div>
+        <div @click="sliderCenter" class="icon-wrapper"><i class="icon-user"></i></div>
+        <div class="title">cnode</div>
       </div>
       <ul class="selectItem" ref="selectItem">
         <router-link tag="li" class="item" to="/index/all"><span>全部</span></router-link>
@@ -16,7 +16,13 @@
     </div>
 
     <div class="container">
-      <keep-alive><router-view/></keep-alive>
+      <keep-alive>
+        <router-view/>
+      </keep-alive>
+    </div>
+
+    <div class="slider-wrapper">
+      <Slider ref="slider"></Slider>
     </div>
 
 
@@ -25,8 +31,17 @@
 
 <script>
 
-  export default {
+  import Slider from '../slider/slider.vue'
 
+  export default {
+    components: {
+      Slider
+    },
+    methods: {
+      sliderCenter(){
+        this.$refs.slider.show()
+      }
+    }
   }
 </script>
 
@@ -34,9 +49,8 @@
 <style scoped lang="stylus" rel="stylesheet/stylus">
 
   .index-header {
-
     background linear-gradient(to bottom, #537df6, #9c73f5)
-    .top{
+    .top {
       display flex
       .icon-wrapper {
         flex: 0 0 40
@@ -44,12 +58,13 @@
         text-align center
         vertical-align middle
         font-size 30px
-        padding: 5px
+        padding: 10px 5px 0 5px;
         color: #fff
       }
       .title {
         flex 1
-        line-height 44px
+        padding-top 10px
+        line-height 34px
         color: #fff
         font-size 18px
       }
@@ -76,6 +91,10 @@
         }
       }
     }
+
+  }
+
+  .slider-wrapper {
 
   }
 

@@ -56,7 +56,7 @@
     overflow hidden
     background #fff
     &.slide-enter-active, &.slide-leave-active {
-      transition: all .2s
+      transition: all .4s
     }
     &.slide-enter, &.slide-leave-to {
       transform: translate3d(100%, 0, 0)

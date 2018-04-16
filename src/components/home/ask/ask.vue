@@ -17,19 +17,13 @@
 <script type="text/ecmascript-6">
   import {getSelectData} from 'api/all'
   import {mapMutations} from 'vuex'
-  import {detailMixin} from 'common/js/mixins'
+  import {commonMixin} from 'common/js/mixins'
   import SelectList from '../../../base/select-list/select-list.vue'
 
   const ERR_OK = true
   const ASK = 'ask'
   export default {
-    data() {
-      return {
-        topicsData: [],
-        hasMove: true,
-        page: 1,
-      }
-    },
+    mixins:[commonMixin],
     components: {
       SelectList
     },
@@ -37,10 +31,6 @@
       this._getSelectData()
     },
     methods: {
-      ...mapMutations({
-        'set_author': 'SET_AUTHOR'
-      }),
-
       _getSelectData() {
         getSelectData(ASK).then((res) => {
           if (res.data.success === ERR_OK) {

@@ -6,7 +6,10 @@ import router from './router'
 import store from './store/index'
 import Cube from 'cube-ui'
 import 'common/stylus/index.styl'
+import vConsole from 'vconsole'
 Vue.use(Cube)
+
+new vConsole()
 
 Vue.config.productionTip = false
 

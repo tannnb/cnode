@@ -238,7 +238,7 @@
       background #fff
       z-index 10
       color: #A072F7
-      box-shadow 0px 0px 20px #A072F7
+      box-shadow 0px 0px 20px rgba(160, 114, 247, 0.4)
       &.ups-enter-active, &.ups-leave-active {
         transition: all .2s
       }

@@ -34,3 +34,14 @@ export function   Topics_detail(id) {
   })
 }
 
+export function accesstoken(accesstoken) {
+  const url = 'https://cnodejs.org/api/v1/accesstoken'
+  const data = {
+    accesstoken
+  }
+  return axios.post(url, {
+    accesstoken
+  }).then((res) =>{
+    return Promise.resolve(res)
+  })
+}

@@ -1,4 +1,5 @@
 const state = {
-  author:''
+  author:'',
+  userInfo:{}
 }
 export default state
