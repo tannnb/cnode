@@ -3,7 +3,7 @@
 
     <div class="index-header">
       <div class="top">
-        <div class="icon-wrapper"><i class="cubeic-alert"></i></div>
+        <div class="icon-wrapper"><i class="icon-user"></i></div>
         <div class="title">CNODE</div>
       </div>
       <ul class="selectItem" ref="selectItem">
@@ -42,6 +42,7 @@
         flex: 0 0 40
         width 40px
         text-align center
+        vertical-align middle
         font-size 30px
         padding: 5px
         color: #fff
@@ -77,16 +78,5 @@
     }
 
   }
-/*
-  .container{
-    position: fixed
-    top:84px
-    bottom 0
-    width 100%
-    overflow hidden
-  }
-*/
-
-
 
 </style>

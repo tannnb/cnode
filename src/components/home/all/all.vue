@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div class="all-wrapper">
       <select-list class="select-list"
                    :topicsData="topicsData"
@@ -8,9 +7,7 @@
                    @selectItem="selectItem"
       ></select-list>
     </div>
-
-
-    <!--  <router-view></router-view>-->
+    <router-view></router-view>
   </div>
 </template>
 
@@ -19,7 +16,6 @@
   import {mapMutations} from 'vuex'
   import {detailMixin} from 'common/js/mixins'
   import SelectList from '../../../base/select-list/select-list.vue'
-
 
   const ERR_OK = true
 
@@ -34,16 +30,15 @@
     components: {
       SelectList
     },
-    created(){
+    created() {
       this._Topics()
     },
-
     methods: {
       ...mapMutations({
         'set_author': 'SET_AUTHOR'
       }),
 
-      _Topics(){
+      _Topics() {
         Topics().then((res) => {
           if (res.data.success === ERR_OK) {
             this.topicsData = res.data.data
@@ -52,7 +47,7 @@
       },
 
       // 上拉加载
-      pullingup(){
+      pullingup() {
         if (!this.hasMove) {
           this.$refs.scroll.forceUpdate()
           return false;
@@ -65,17 +60,18 @@
           }
         })
       },
-      _checkMore(item){
+      _checkMore(item) {
         if (!item.length) {
           this.hasMove = false
         }
       },
 
-      selectItem(item){
+      selectItem(item) {
         this.set_author(item)
-         /*this.$router.push({
-         path:`/index/home/all/${item.id}`
-         })*/
+        console.log(item)
+        this.$router.push({
+          path: `/index/all/${item.id}`
+        })
       }
     }
   }

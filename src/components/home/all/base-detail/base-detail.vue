@@ -1,49 +1,48 @@
 <template>
   <transition name="slide">
     <div class="detail-wrapper">
-      <detail :detail="detail" :detailScroll="detailScroll"></detail>
+       <detail-page :detail="detail"></detail-page>
     </div>
   </transition>
 
 </template>
 
 <script type="text/ecmascript-6">
-  import detail from '../../../../components/detail/detail.vue'
+  import detailPage from '../../../detail-page/detail-page.vue'
   import {Topics_detail} from 'api/all'
   import {mapGetters} from 'vuex'
 
   const ERR_OK = true
-    export default {
-      data(){
-        return {
-          detail: {},
-          detailScroll: []
-        }
-      },
-      components:{
-        detail
-      },
-      created(){
-        this._Topics_detail()
-      },
-      computed: {
-        ...mapGetters(['author'])
-      },
-      methods:{
-        async _Topics_detail(){
-          if (!this.author.id) {
-            this.$router.back()
-            return;
-          }
-          await Topics_detail(this.author.id).then(res => {
-            if (res.data.success === ERR_OK) {
-              this.detail = res.data.data
-              this.detailScroll.push(res.data.data)
-            }
-          })
-        }
+  export default {
+    data() {
+      return {
+        detail: {}
       }
-    };
+    },
+    components: {
+      detailPage
+    },
+    created() {
+      this._Topics_detail()
+    },
+    computed: {
+      ...mapGetters(['author'])
+    },
+    methods: {
+      async _Topics_detail() {
+        if (!this.author.id) {
+          this.$router.back()
+          return;
+        }
+        await Topics_detail(this.author.id).then(res => {
+          if (res.data.success === ERR_OK) {
+            this.detail = res.data.data
+              console.log(this.detail)
+          }
+        })
+      }
+    }
+  };
 
 </script>
 

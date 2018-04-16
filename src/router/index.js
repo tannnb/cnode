@@ -17,10 +17,22 @@ export default new Router({
         {
           path: 'all',
           component: () => import('@/components/home/all/all'),
+          children:[
+            {
+              path: ':id',
+              component: () => import('@/components/home/all/base-detail/base-detail'),
+            }
+          ]
         },
         {
           path: 'good',
           component: () => import('@/components/home/good/good'),
+          children:[
+            {
+              path: ':id',
+              component: () => import('@/components/home/all/base-detail/base-detail'),
+            }
+          ]
         },
         {
           path: 'share',
@@ -35,69 +47,11 @@ export default new Router({
           component: () => import('@/components/home/job/job'),
         }
       ]
+    },
+    {
+      path:'/login',
+      component: () => import('@/components/login/login'),
     }
 
   ]
 })
-
-/*export default new Router({
-  routes: [
-    {
-      path: '/',
-      redirect: '/index'
-    },
-    {
-      path: '/index',
-      component: () => import('@/components/index'),
-      redirect: '/index/home',
-      children: [
-        {
-          path: 'home',
-          component: () => import('@/components/home/home'),
-          redirect: '/index/home/all',
-          children:[
-            {
-              path: 'all',
-              component: () => import('@/components/home/all/all'),
-              children:[
-                {
-                  path: ':id',
-                  component: () => import('@/components/home/all/base-detail/base-detail')
-                }
-              ]
-            },
-            {
-              path: 'ask',
-              component: () => import('@/components/home/ask/ask')
-            },
-            {
-              path: 'share',
-              component: () => import('@/components/home/share/share')
-            },
-            {
-              path: 'good',
-              component: () => import('@/components/home/good/good')
-            },
-            {
-              path: 'job',
-              component: () => import('@/components/home/job/job')
-            }
-          ]
-        },
-        {
-          path: 'topic',
-          component: () => import('@/components/topic/topic')
-        },
-        {
-          path: 'message',
-          component: () => import('@/components/message/message')
-        },
-        {
-          path: 'userCenter',
-          component: () => import('@/components/userCenter/userCenter')
-        }
-      ]
-    }
-
-  ]
-})*/

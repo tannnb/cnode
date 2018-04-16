@@ -1,10 +1,11 @@
 <template>
-  <div>
-
+  <div class="select-wrapper" ref="selectWrapper">
     <cube-scroll
       ref="scroll"
+      class="scroll"
       :listenScroll="listenScroll"
       :data="topicsData"
+      @scroll="scroll"
       @pulling-up="pullingup"
       @pulling-down="pullingdown"
       :options="options">
@@ -31,6 +32,9 @@
         </div>
       </div>
     </cube-scroll>
+    <transition name="ups">
+      <i v-show="upFlag" @click.stop="scrollToUp" class="icon-up up"></i>
+    </transition>
   </div>
 </template>
 
@@ -49,6 +53,7 @@
       return {
         refreshDelay: 100,
         listenScroll: true,
+        upFlag:false,
         options: {
           pullDownRefresh: {
             txt: '刷新成功！'
@@ -64,6 +69,10 @@
       }
     },
 
+    mounted(){
+      this.selectHeight = this.$refs.selectWrapper.getBoundingClientRect().height
+    },
+
     methods: {
       pullingup(){
         this.$emit('pullingup')
@@ -72,6 +81,18 @@
         setTimeout(() => {
           this.$refs.scroll.forceUpdate()
         }, 1000)
+      },
+
+      scroll(pos){
+        if ( Math.abs(pos.y) > this.selectHeight ){
+          this.upFlag = true
+          return
+        }
+        this.upFlag = false
+      },
+
+      scrollToUp(){
+        this.$refs.scroll.scrollTo(0, 0, 700)
       },
 
       iconMode(icon){
@@ -88,8 +109,7 @@
           case 'job':
             return 'icon-job';
             break;
-          default:
-            '';
+          default:'';
         }
       },
 
@@ -117,7 +137,6 @@
     }
     .title {
       display flex
-      align-items center
       font-size 0
       .icon-top {
         vertical-align middle
@@ -127,7 +146,7 @@
       .icon-share {
         vertical-align middle
         font-size 24px
-        color: #42cb3f
+        color: #4caf50
       }
       .icon-ask {
         vertical-align middle
@@ -136,13 +155,17 @@
       }
 
       .icon {
-        flex: 0 0 50
-        width 50px
+        flex: 0 0 30
+        width 30px
         justify-content center
         margin 0 auto
       }
       .name {
         flex: 1
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
         vertical-align middle
         line-height 24px
         font-size 18px
@@ -196,5 +219,27 @@
     }
 
   }
+  .select-wrapper{
+    position: relative
+    .up{
+      position: absolute
+      bottom 30px
+      right:30px
+      padding 8px
+      font-size 36px
+      border-radius 50%
+      background #fff
+      z-index 10
+      color: #A072F7
+      box-shadow 0px 0px 20px #A072F7
+      &.ups-enter-active, &.ups-leave-active {
+        transition: all .2s
+      }
+      &.ups-enter, &.ups-leave-to {
+        transform: scale(0)
+      }
+    }
+  }
+
 
 </style>
