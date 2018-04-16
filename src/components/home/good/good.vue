@@ -6,6 +6,7 @@
                    :topicsData="topicsData"
                    @pullingup="pullingup"
                    @selectItem="selectItem"
+                   :iconFlag="false"
       ></select-list>
     </div>
 
@@ -14,13 +15,13 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {good} from 'api/good'
+  import {getSelectData} from 'api/all'
   import {mapMutations} from 'vuex'
   import {detailMixin} from 'common/js/mixins'
   import SelectList from '../../../base/select-list/select-list.vue'
 
   const ERR_OK = true
-
+  const GOOD = 'good'
   export default {
     data() {
       return {
@@ -33,15 +34,15 @@
       SelectList
     },
     created() {
-      this._good()
+      this._getSelectData()
     },
     methods: {
       ...mapMutations({
         'set_author': 'SET_AUTHOR'
       }),
 
-      _good() {
-        good().then((res) => {
+      _getSelectData() {
+        getSelectData(GOOD).then((res) => {
           if (res.data.success === ERR_OK) {
             this.topicsData = res.data.data
             console.log(this.topicsData)
@@ -56,7 +57,7 @@
           return false;
         }
         this.page++;
-        good(this.page).then((res) => {
+        getSelectData(GOOD,this.page).then((res) => {
           if (res.data.success === ERR_OK) {
             this.topicsData = this.topicsData.concat(res.data.data)
             this._checkMore(this.topicsData)

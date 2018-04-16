@@ -20,7 +20,7 @@ export default new Router({
           children:[
             {
               path: ':id',
-              component: () => import('@/components/home/all/base-detail/base-detail'),
+              component: () => import('@/components/home/base-detail/base-detail'),
             }
           ]
         },
@@ -30,21 +30,39 @@ export default new Router({
           children:[
             {
               path: ':id',
-              component: () => import('@/components/home/all/base-detail/base-detail'),
+              component: () => import('@/components/home/base-detail/base-detail'),
             }
           ]
         },
         {
           path: 'share',
           component: () => import('@/components/home/share/share'),
+          children:[
+            {
+              path: ':id',
+              component: () => import('@/components/home/base-detail/base-detail'),
+            }
+          ]
         },
         {
           path: 'ask',
           component: () => import('@/components/home/ask/ask'),
+          children:[
+            {
+              path: ':id',
+              component: () => import('@/components/home/base-detail/base-detail'),
+            }
+          ]
         },
         {
           path: 'job',
           component: () => import('@/components/home/job/job'),
+          children:[
+            {
+              path: ':id',
+              component: () => import('@/components/home/base-detail/base-detail'),
+            }
+          ]
         }
       ]
     },

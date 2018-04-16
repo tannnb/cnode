@@ -12,12 +12,13 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {Topics} from 'api/all'
+  import {getSelectData} from 'api/all'
   import {mapMutations} from 'vuex'
   import {detailMixin} from 'common/js/mixins'
   import SelectList from '../../../base/select-list/select-list.vue'
 
   const ERR_OK = true
+  const ALL = 'all'
 
   export default {
     data() {
@@ -31,15 +32,15 @@
       SelectList
     },
     created() {
-      this._Topics()
+      this._getSelectData()
     },
     methods: {
       ...mapMutations({
         'set_author': 'SET_AUTHOR'
       }),
 
-      _Topics() {
-        Topics().then((res) => {
+      _getSelectData() {
+        getSelectData(ALL).then((res) => {
           if (res.data.success === ERR_OK) {
             this.topicsData = res.data.data
           }
@@ -53,7 +54,7 @@
           return false;
         }
         this.page++;
-        Topics(this.page).then((res) => {
+        getSelectData(ALL,this.page).then((res) => {
           if (res.data.success === ERR_OK) {
             this.topicsData = this.topicsData.concat(res.data.data)
             this._checkMore(this.topicsData)

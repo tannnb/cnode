@@ -14,7 +14,7 @@
            v-for="(items,index) in topicsData"
            :key="items.id">
         <h2 class="title">
-          <span class="icon" :class=" items.top? 'icon-top':iconMode(items.tab) "></span>
+          <span v-if="iconFlag" class="icon" :class=" items.top? 'icon-top':iconMode(items.tab) "></span>
           <span class="name">{{items.title}}</span>
         </h2>
         <div class="descript">
@@ -47,13 +47,17 @@
       topicsData: {
         type: Array,
         default: []
+      },
+      iconFlag: {
+        type: Boolean,
+        default: true
       }
     },
     data() {
       return {
         refreshDelay: 100,
         listenScroll: true,
-        upFlag:false,
+        upFlag: false,
         options: {
           pullDownRefresh: {
             txt: '刷新成功！'
@@ -84,7 +88,7 @@
       },
 
       scroll(pos){
-        if ( Math.abs(pos.y) > this.selectHeight ){
+        if (Math.abs(pos.y) > this.selectHeight) {
           this.upFlag = true
           return
         }
@@ -109,7 +113,8 @@
           case 'job':
             return 'icon-job';
             break;
-          default:'';
+          default:
+            '';
         }
       },
 
@@ -137,6 +142,7 @@
     }
     .title {
       display flex
+      padding-bottom 6px
       font-size 0
       .icon-top {
         vertical-align middle
@@ -219,14 +225,15 @@
     }
 
   }
-  .select-wrapper{
+
+  .select-wrapper {
     position: relative
-    .up{
+    .up {
       position: absolute
       bottom 30px
-      right:30px
-      padding 8px
-      font-size 36px
+      right: 30px
+      padding 14px
+      font-size 30px
       border-radius 50%
       background #fff
       z-index 10

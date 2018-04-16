@@ -1,11 +1,11 @@
 import axios from 'axios'
 
 
-export function Topics(page=1) {
+export function getSelectData(tab,page=1) {
   const url = 'https://cnodejs.org/api/v1/topics'
 
   const data = {
-    tab:'all',
+    tab,
     page,
     limit:10,
     mdrender:false,
