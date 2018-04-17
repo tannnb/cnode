@@ -37,7 +37,6 @@
           this.showToastMask().hide()
           if (res.data.success === ERR_OK) {
             this.topicsData = res.data.data
-            console.log(this.topicsData)
           }
         }).catch(error => {
           this.showToastMask().hide()

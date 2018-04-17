@@ -8,7 +8,11 @@ export function saveUserInfo(userinfo) {
   return UserInfos
 }
 
-export function removeUserInfo(userinfo) {
+export function singOutLogin(userinfo) {
   storage.remove(USERINFO)
   return {}
+}
+
+export function getUserInfo() {
+  return storage.get(USERINFO,[])
 }

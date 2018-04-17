@@ -41,6 +41,7 @@
 <script type="text/ecmascript-6">
   import {filterMixin} from 'common/js/mixins'
 
+
   export default {
     mixins: [filterMixin],
     props: {
@@ -74,7 +75,7 @@
     },
 
     mounted(){
-      this.selectHeight = this.$refs.selectWrapper.getBoundingClientRect().height
+      this.selectHeight = this.$refs.selectWrapper.getBoundingClientRect().height;
     },
 
     methods: {

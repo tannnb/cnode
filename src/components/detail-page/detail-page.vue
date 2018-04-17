@@ -50,7 +50,7 @@
             <div class="reply_content" v-html="items.content"></div>
           </li>
         </ul>
-        <div class="login-wrapper">
+        <div class="login-wrapper" v-if="!userInfo.success">
           <cube-button @click="goLogin" :primary="true" :outline="true">未登录，是否立即登录?</cube-button>
         </div>
       </cube-scroll>
@@ -62,6 +62,7 @@
 <script type="text/ecmascript-6">
   require('../../common/stylus/markdown.css');
   import {commonMixin,filterMixin} from '../../common/js/mixins'
+  import {mapGetters} from 'vuex'
 
 
   export default {
@@ -77,6 +78,9 @@
           refreshDelay:1000,
           detailScroll:[]
         }
+    },
+    computed:{
+      ...mapGetters(['userInfo'])
     },
     mounted(){
       setTimeout(() => {

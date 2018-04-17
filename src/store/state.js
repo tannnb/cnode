@@ -1,5 +1,7 @@
+import {getUserInfo} from '../common/js/cache'
+
 const state = {
   author:'',
-  userInfo:{}
+  userInfo:getUserInfo()
 }
 export default state

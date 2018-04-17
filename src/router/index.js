@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import {getUserInfo} from '../common/js/cache'
 
 Vue.use(Router)
 
-export default new Router({
+
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -13,11 +15,11 @@ export default new Router({
       path: '/index',
       component: () => import('@/components/index/index'),
       redirect: '/index/all',
-      children:[
+      children: [
         {
           path: 'all',
           component: () => import('@/components/home/all/all'),
-          children:[
+          children: [
             {
               path: ':id',
               component: () => import('@/components/home/base-detail/base-detail'),
@@ -27,7 +29,7 @@ export default new Router({
         {
           path: 'good',
           component: () => import('@/components/home/good/good'),
-          children:[
+          children: [
             {
               path: ':id',
               component: () => import('@/components/home/base-detail/base-detail'),
@@ -37,7 +39,7 @@ export default new Router({
         {
           path: 'share',
           component: () => import('@/components/home/share/share'),
-          children:[
+          children: [
             {
               path: ':id',
               component: () => import('@/components/home/base-detail/base-detail'),
@@ -47,7 +49,7 @@ export default new Router({
         {
           path: 'ask',
           component: () => import('@/components/home/ask/ask'),
-          children:[
+          children: [
             {
               path: ':id',
               component: () => import('@/components/home/base-detail/base-detail'),
@@ -57,7 +59,7 @@ export default new Router({
         {
           path: 'job',
           component: () => import('@/components/home/job/job'),
-          children:[
+          children: [
             {
               path: ':id',
               component: () => import('@/components/home/base-detail/base-detail'),
@@ -67,9 +69,27 @@ export default new Router({
       ]
     },
     {
-      path:'/login',
+      path: '/login',
       component: () => import('@/components/login/login'),
     }
 
   ]
 })
+
+router.beforeEach((to, from, next) => {
+
+  // 是否需要登录权限
+  if (to.meta.requireAuth) {
+    // 是否存在cookie或者token
+    if (getUserInfo().success === "true") {
+      next()
+    } else {
+      next({path: '/login'})
+    }
+  } else {
+    next()
+  }
+})
+
+export default router;
+

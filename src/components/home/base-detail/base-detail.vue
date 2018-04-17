@@ -37,7 +37,6 @@
         await Topics_detail(this.author.id).then(res => {
           if (res.data.success === ERR_OK) {
             this.detail = res.data.data
-              console.log(this.detail)
           }
         })
       }
