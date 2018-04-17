@@ -32,11 +32,15 @@
     },
     methods: {
       _getSelectData() {
+        this.showToastMask().show()
         getSelectData(ASK).then((res) => {
+          this.showToastMask().hide()
           if (res.data.success === ERR_OK) {
             this.topicsData = res.data.data
             console.log(this.topicsData)
           }
+        }).catch(error => {
+          this.showToastMask().hide()
         })
       },
 

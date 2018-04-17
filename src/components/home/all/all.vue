@@ -30,10 +30,15 @@
     },
     methods: {
       _getSelectData() {
+       this.showToastMask().show()
         getSelectData(ALL).then((res) => {
           if (res.data.success === ERR_OK) {
+            this.showToastMask().hide()
             this.topicsData = res.data.data
           }
+        }).catch(error => {
+          this.showToastMask().hide()
+          this.showToastType('correct','网络故障').show()
         })
       },
 
@@ -50,6 +55,11 @@
             this._checkMore(this.topicsData)
           }
         })
+      },
+      _checkMore(item) {
+        if (!item.length) {
+          this.hasMove = false
+        }
       },
 
       selectItem(item) {

@@ -6,7 +6,7 @@
                    :topicsData="topicsData"
                    @pullingup="pullingup"
                    @selectItem="selectItem"
-                   :iconFlag="false"
+                   :iconFlag="true"
       ></select-list>
     </div>
 
@@ -32,11 +32,15 @@
     },
     methods: {
       _getSelectData() {
+        this.showToastMask().show()
         getSelectData(JOB).then((res) => {
           if (res.data.success === ERR_OK) {
+            this.showToastMask().hide()
             this.topicsData = res.data.data
             console.log(this.topicsData)
           }
+        }).catch(error => {
+          this.showToastMask().hide()
         })
       },
 

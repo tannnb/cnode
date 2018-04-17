@@ -32,11 +32,15 @@
     },
     methods: {
       _getSelectData() {
+        this.showToastMask().show()
         getSelectData(SHARE).then((res) => {
           if (res.data.success === ERR_OK) {
+            this.showToastMask().hide()
             this.topicsData = res.data.data
             console.log(this.topicsData)
           }
+        }).catch(error => {
+          this.showToastMask().hide()
         })
       },
 

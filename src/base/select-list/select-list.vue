@@ -63,7 +63,7 @@
             txt: '刷新成功！'
           },
           pullUpLoad: {
-            threshold: 0,
+            threshold:140,
             txt: {
               more: '正在加载中',
               noMore: '没有更多了!'

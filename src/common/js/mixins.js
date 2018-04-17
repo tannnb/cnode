@@ -16,6 +16,19 @@ export const commonMixin = {
     }),
     goBack(){
       this.$router.back()
+    },
+    showToastMask(text){
+      return this.$createToast({
+        txt: text? text :'加载中...',
+        mask: true
+      })
+    },
+    showToastType(type='correct',txt='暂无信息') {
+      return this.$createToast({
+        txt: `${txt}`,
+        type: `${type}`,
+        time:2000
+      })
     }
   }
 }
