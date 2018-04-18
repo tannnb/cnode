@@ -69,6 +69,27 @@ const router = new Router({
       ]
     },
     {
+      path: '/topic',
+      meta:{
+        requireAuth:true
+      },
+      component: () => import('@/components/topic/topic'),
+    },
+    {
+      path: '/message',
+      meta:{
+        requireAuth:true
+      },
+      component: () => import('@/components/message/message'),
+    },
+    {
+      path: '/userCenter',
+      meta:{
+        requireAuth:true
+      },
+      component: () => import('@/components/userCenter/userCenter'),
+    },
+    {
       path: '/login',
       component: () => import('@/components/login/login'),
     }
@@ -80,8 +101,7 @@ router.beforeEach((to, from, next) => {
 
   // 是否需要登录权限
   if (to.meta.requireAuth) {
-    // 是否存在cookie或者token
-    if (getUserInfo().success === "true") {
+    if (getUserInfo().success === true) {
       next()
     } else {
       next({path: '/login'})

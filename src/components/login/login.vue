@@ -32,8 +32,14 @@
     data() {
       return {
         value: '',
-        placeholder: ''
+        placeholder: '',
+        fullpath:''
       }
+    },
+    beforeRouteEnter (to, from, next) {
+      next(vm => {
+        vm.fullpath = from.path
+      })
     },
     methods: {
       ...mapActions(['saveUserInfoAsync']),
@@ -65,7 +71,9 @@
             href: 'javascript:;'
           },
           onConfirm: () => {
-            this.$router.back()
+            this.$router.push({
+              path:'/index'
+            })
           }
         }).show()
       },
@@ -76,7 +84,6 @@
           return
         }
 
-
         this.loginToast = this.$createToast({
           time: 0,
           txt: '登陆中，请稍后...'
@@ -84,9 +91,10 @@
         accesstoken(this.value).then((res) => {
           if (res.status == ERR_OK) {
               this.saveUserInfoAsync(res.data)
-            this.loginToast.hide()
-            this.$router.back()
-
+              this.loginToast.hide()
+              this.$router.push({
+                path:`${this.fullpath}`
+              })
           }
         }).catch(err => {
           this.loginToast.hide()
@@ -102,7 +110,7 @@
   }
 </script>
 
-<style lang="stylus" rel="stylesheet/stylus" type="text/stylus">
+<style scoped lang="stylus" rel="stylesheet/stylus" type="text/stylus">
 
   .login-wrapper {
     position: fixed
@@ -159,3 +167,4 @@
   }
 
 </style>
+

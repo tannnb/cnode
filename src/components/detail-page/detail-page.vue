@@ -48,6 +48,7 @@
               <div class="number">{{index+1}}F</div>
             </div>
             <div class="reply_content" v-html="items.content"></div>
+            <div class="like"> <i class="icon-zang"></i>点赞  <i class="icon-py"></i>分享 </div>
           </li>
         </ul>
         <div class="login-wrapper" v-if="!userInfo.success">
@@ -76,7 +77,8 @@
     data(){
         return {
           refreshDelay:1000,
-          detailScroll:[]
+          detailScroll:[],
+          fullpath:''
         }
     },
     computed:{
@@ -275,6 +277,18 @@
         line-height 22px
         color: #2d2c2c
       }
+        .like{
+          padding 14px 10px 6px 0
+          text-align right
+          font-size 12px
+          color: #9d9d9d
+          i{
+            font-size 18px
+          }
+          i:nth-child(2){
+            padding-left 12px
+          }
+        }
     }
 
   }

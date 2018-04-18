@@ -9,7 +9,7 @@ import 'common/stylus/index.styl'
 import vConsole from 'vconsole'
 Vue.use(Cube)
 
-new vConsole()
+/*new vConsole()*/
 
 Vue.config.productionTip = false
 

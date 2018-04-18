@@ -10,7 +10,7 @@
 <script type="text/ecmascript-6">
   import detailPage from '../../detail-page/detail-page.vue'
   import {Topics_detail} from 'api/all'
-  import {mapGetters} from 'vuex'
+  import {mapGetters,mapMutations} from 'vuex'
 
   const ERR_OK = true
   export default {
@@ -25,10 +25,21 @@
     created() {
       this._Topics_detail()
     },
+    beforeRouteEnter (to, from, next) {
+      next(vm => {
+          if(from.path === '/login'){
+              return
+          }
+        vm.setPathUrl(from.path)
+      })
+    },
     computed: {
       ...mapGetters(['author'])
     },
     methods: {
+      ...mapMutations({
+        'setPathUrl':'SET_PATH_URL'
+      }),
       async _Topics_detail() {
         if (!this.author.id) {
           this.$router.back()

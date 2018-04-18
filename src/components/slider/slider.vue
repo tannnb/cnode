@@ -9,14 +9,15 @@
           </div>
           <div v-if="!loginnane" class="desc" @click="goLogin">立即登陆</div>
           <div v-if="loginnane" class="desc">{{loginnane}}</div>
+          <div class="blur"></div>
         </div>
         <ul class="silderItem">
-          <li class="items" @click="hide"><i class="icon-home"></i> <span>全部</span></li>
-          <li class="items" @click="goRouter"><i class="icon-topic"></i> <span>话题</span></li>
-          <li class="items" @click="goRouter"><i class="icon-message"></i> <span>消息</span></li>
-          <li class="items" @click="goRouter"><i class="icon-user"></i> <span>个人中心</span></li>
+          <li class="items" @click="hide"><i class="icon-home"></i> 全部</li>
+          <li class="items" data-to="/topic" @click="goRouter"><i class="icon-topic"></i> 话题</li>
+          <li class="items" data-to="/message" @click="goRouter"><i class="icon-message"></i> 消息</li>
+          <li class="items" data-to="/userCenter" @click="goRouter"><i class="icon-user"></i> 个人中心</li>
         </ul>
-        <div class="signOut">
+        <div class="signOut" v-if="userInfo.success">
           <cube-button @click.native="singout" :primary="true" :outline="true">退出登陆</cube-button>
         </div>
       </div>
@@ -55,10 +56,11 @@
       hide(){
         this.sliderFlag = false
       },
-      goRouter(){
-        if (!this.userInfo.success) {
-          //  this.$router.
-        }
+      goRouter(e){
+          const path = e.target.getAttribute('data-to')
+          this.$router.push({
+            path:`${path}`
+          })
       },
       goLogin(){
         this.$router.push({
@@ -66,7 +68,25 @@
         })
       },
       singout(){
-        this.singOutLoginAsync()
+        this.$createDialog({
+          type: 'confirm',
+          icon: 'cubeic-alert',
+          content: '是否立即退出',
+          confirmBtn: {
+            text: '确定',
+            active: true,
+            disabled: false,
+          },
+          cancelBtn: {
+            text: '取消',
+            disabled: false,
+          },
+          onConfirm: () => {
+            this.singOutLoginAsync()
+            this.hide()
+          }
+        }).show()
+
       }
     }
   };
@@ -109,13 +129,16 @@
       min-height 60px
       align-items center
       border-bottom 1px solid #ddd
+      background #509dde
       .user {
         flex: 0 0 80
         width 80px
         height: 80px
         margin 0 10px
         border-radius 50%
-        background #ddd
+        background url("user.png") no-repeat
+        background-size: cover;
+        border: 4px solid rgba(240, 240, 240, 0.4)
         overflow hidden
         img {
           width 100%
@@ -124,7 +147,7 @@
       .desc {
         flex: 1
         font-size 20px
-        color: #2196f3
+        color: #fff
       }
 
     }

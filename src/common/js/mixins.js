@@ -1,5 +1,5 @@
 import {formatDate} from "./unit"
-import {mapMutations} from 'vuex'
+import {mapMutations,mapGetters} from 'vuex'
 
 
 export const commonMixin = {
@@ -10,12 +10,17 @@ export const commonMixin = {
       page: 1,
     }
   },
+  computed:{
+  ...mapGetters(['pathUrl'])
+  },
   methods:{
     ...mapMutations({
       'set_author': 'SET_AUTHOR'
     }),
     goBack(){
-      this.$router.back()
+      this.$router.push({
+        path:`${this.pathUrl}`
+      })
     },
     showToastMask(text){
       return this.$createToast({

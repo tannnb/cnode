@@ -49,7 +49,7 @@
 <style scoped lang="stylus" rel="stylesheet/stylus">
 
   .index-header {
-    background linear-gradient(to bottom, #537df6, #9c73f5)
+     background linear-gradient(to bottom, #537df6, #509dde)
     .top {
       display flex
       .icon-wrapper {
@@ -76,7 +76,7 @@
         text-align center
         margin-top 8px
         font-size 15px
-        color: #c8b4fb
+        color: #c2c2c2
         span {
           display block
           padding 4px 2px

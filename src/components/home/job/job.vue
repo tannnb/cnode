@@ -65,9 +65,8 @@
 
       selectItem(item) {
         this.set_author(item)
-        console.log(item)
         this.$router.push({
-          path: `/index/JOB/${item.id}`
+          path: `/index/job/${item.id}`
         })
       }
     }

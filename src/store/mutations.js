@@ -7,8 +7,11 @@ const mutations = {
   [types.SET_USER_INFO](state,userInfo){
     state.userInfo = userInfo
   },
-  [types.SET_SINGOUT_LOGIN](state,singout){
-    state.userInfo = singout
+  [types.SET_PATH_URL](state,pathUrl){
+    state.pathUrl = pathUrl
+  },
+  [types.SET_SINGOUT_LOGIN](state,singOut){
+    state.userInfo = singOut
   }
 }
 
