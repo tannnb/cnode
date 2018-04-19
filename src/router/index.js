@@ -87,7 +87,7 @@ const router = new Router({
       meta:{
         requireAuth:true
       },
-      component: () => import('@/components/userCenter/userCenter'),
+      component: () => import('@/components/userCenter/userCenter')
     },
     {
       path: '/login',

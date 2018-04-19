@@ -45,3 +45,11 @@ export function accesstoken(accesstoken) {
     return Promise.resolve(res)
   })
 }
+
+export function getUserInfo(userName) {
+  const url = `https://cnodejs.org/api/v1/user/${userName}`
+
+  return axios.get(url).then((res) =>{
+    return Promise.resolve(res)
+  })
+}

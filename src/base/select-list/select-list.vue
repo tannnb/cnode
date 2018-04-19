@@ -147,18 +147,23 @@
       font-size 0
       .icon-top {
         vertical-align middle
-        font-size 22px
+        font-size 20px
         color: #ff361e
       }
       .icon-share {
         vertical-align middle
-        font-size 24px
+        font-size 20px
         color: #4caf50
       }
       .icon-ask {
         vertical-align middle
-        font-size 24px
+        font-size 20px
         color: #ff361e
+      }
+      .icon-job {
+        vertical-align middle
+        font-size 24px
+        color: #3aafff
       }
 
       .icon {
@@ -175,7 +180,7 @@
         overflow: hidden;
         vertical-align middle
         line-height 24px
-        font-size 18px
+        font-size 16px
       }
 
     }
@@ -204,20 +209,21 @@
           font-size 14px
           color: #9c9c9c
           .name {
-            color: #000
+            color: #4a4c5b
             font-size 16px
           }
           .Reply {
-
+            color: #4a4c5b
+            font-size 13px
           }
         }
         .b {
           display flex
           justify-content space-between
-          font-size 14px
+          font-size 12px
           color: #9c9c9c
           .time-start {
-
+            font-size 12px
           }
           .time-sec {
           }
@@ -234,12 +240,12 @@
       bottom 30px
       right: 30px
       padding 14px
-      font-size 30px
+      font-size 24px
       border-radius 50%
       background #fff
       z-index 10
-      color: #A072F7
-      box-shadow 0px 0px 20px rgba(160, 114, 247, 0.4)
+      color: #727888
+      box-shadow 0px 0px 20px rgba(114, 120, 136, 0.49)
       &.ups-enter-active, &.ups-leave-active {
         transition: all .2s
       }

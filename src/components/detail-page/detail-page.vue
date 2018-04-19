@@ -48,7 +48,7 @@
               <div class="number">{{index+1}}F</div>
             </div>
             <div class="reply_content" v-html="items.content"></div>
-            <div class="like"> <i class="icon-zang"></i>点赞  <i class="icon-py"></i>分享 </div>
+            <div class="like"> <i class="icon-zang"></i>点赞  <i class="icon-py"></i>回复 </div>
           </li>
         </ul>
         <div class="login-wrapper" v-if="!userInfo.success">
@@ -203,6 +203,9 @@
           &.good {
             background #bf62ff
           }
+          &.job{
+            background #3aafff
+          }
         }
         .readNum {
           display inline-block
@@ -237,10 +240,10 @@
     .title-reply {
       padding: 5px 10px;
       line-height: 24px;
-      border-left: 8px solid #80bd01;
-      background: #eee;
+      border-left: 8px solid #4a4c5b;
+      background: #f5f5f5;
       font-weight: 400;
-      font-size: 14px;
+      font-size: 16px;
     }
 
     .selectItem {
@@ -260,6 +263,7 @@
           }
           .time{
             font-size 13px
+            padding-left 6px
             color #a4a4a4
           }
         }

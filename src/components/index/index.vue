@@ -4,7 +4,7 @@
     <div class="index-header">
       <div class="top">
         <div @click="sliderCenter" class="icon-wrapper"><i class="icon-user"></i></div>
-        <div class="title">cnode</div>
+        <div class="title">Node.js专业中文社区</div>
       </div>
       <ul class="selectItem" ref="selectItem">
         <router-link tag="li" class="item" to="/index/all"><span>全部</span></router-link>
@@ -49,28 +49,33 @@
 <style scoped lang="stylus" rel="stylesheet/stylus">
 
   .index-header {
-     background linear-gradient(to bottom, #537df6, #509dde)
+     background #fff
     .top {
-      display flex
+      position: relative
       .icon-wrapper {
-        flex: 0 0 40
+        position: absolute
+        top: 0
+        left: 0
         width 40px
         text-align center
         vertical-align middle
         font-size 30px
         padding: 10px 5px 0 5px;
-        color: #fff
+        color: #4a4c5b
       }
       .title {
-        flex 1
+        margin 0 auto
+        width 80%
         padding-top 10px
         line-height 34px
-        color: #fff
+        color: #4a4c5b
         font-size 18px
+        text-align center
       }
     }
     .selectItem {
       display flex
+      border-bottom:1px solid rgba(7,17,27,.1)
       .item {
         flex: 1
         text-align center
@@ -84,9 +89,9 @@
         }
         &.router-link-active {
           span {
-            color: #fff
+            color: #fc9153
             font-size 16px
-            border-bottom 2px solid #fff
+            border-bottom 1px solid #fc9153
           }
         }
       }

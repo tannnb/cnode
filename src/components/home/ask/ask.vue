@@ -6,7 +6,7 @@
                    :topicsData="topicsData"
                    @pullingup="pullingup"
                    @selectItem="selectItem"
-                   :iconFlag="false"
+                   :iconFlag="true"
       ></select-list>
     </div>
 

@@ -18,7 +18,7 @@
           <li class="items" data-to="/userCenter" @click="goRouter"><i class="icon-user"></i> 个人中心</li>
         </ul>
         <div class="signOut" v-if="userInfo.success">
-          <cube-button @click.native="singout" :primary="true" :outline="true">退出登陆</cube-button>
+          <cube-button @click.native="singout"  :outline="true">退出登陆</cube-button>
         </div>
       </div>
 
@@ -128,12 +128,11 @@
       padding 30px 0
       min-height 60px
       align-items center
-      border-bottom 1px solid #ddd
-      background #509dde
+      border-bottom 1px solid rgba(7,17,27,.1)
       .user {
         flex: 0 0 80
-        width 80px
-        height: 80px
+        width 60px
+        height: 60px
         margin 0 10px
         border-radius 50%
         background url("user.png") no-repeat
@@ -147,14 +146,14 @@
       .desc {
         flex: 1
         font-size 20px
-        color: #fff
+        color: #4a4c5b
       }
 
     }
 
     .silderItem {
       color: #000
-      padding-left 20%
+      padding-left 14%
       padding-top 20px
       .items {
         padding 10px 0
