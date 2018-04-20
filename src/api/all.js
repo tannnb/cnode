@@ -53,3 +53,18 @@ export function getUserInfo(userName) {
     return Promise.resolve(res)
   })
 }
+
+export function topics_theme(options) {
+  const url = `https://cnodejs.org/api/v1/topics`
+
+  const data = {
+    accesstoken:options.accesstoken,
+    title:options.title,
+    tab:options.tab,
+    content:options.content
+  }
+
+  return axios.post(url,data).then((res) =>{
+    return Promise.resolve(res)
+  })
+}

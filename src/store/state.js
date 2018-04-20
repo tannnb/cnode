@@ -1,8 +1,9 @@
-import {getUserInfo} from '../common/js/cache'
+import {getUserInfo,getAccesstoken} from '../common/js/cache'
 
 const state = {
   author:'',
   pathUrl:'',
-  userInfo:getUserInfo()
+  userInfo:getUserInfo(),
+  accessToken:getAccesstoken()
 }
 export default state

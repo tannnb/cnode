@@ -42,7 +42,7 @@
       })
     },
     methods: {
-      ...mapActions(['saveUserInfoAsync']),
+      ...mapActions(['saveUserInfoAsync','saveUserAccessToken']),
       showToastType() {
         const toast = this.$createToast({
           txt: 'Access Token不能为空!',
@@ -56,19 +56,17 @@
         this.$createDialog({
           type: 'confirm',
           icon: 'cubeic-question',
-          title: '登陆',
-          content: '是否离开？',
+          title: '是否离开？',
+
           confirmBtn: {
-            text: '稍后登陆',
+            text: '确定',
             active: true,
-            disabled: false,
-            href: 'javascript:;'
+            disabled: false
           },
           cancelBtn: {
             text: '取消',
             active: false,
-            disabled: false,
-            href: 'javascript:;'
+            disabled: false
           },
           onConfirm: () => {
             this.$router.push({
@@ -89,7 +87,9 @@
           txt: '登陆中，请稍后...'
         }).show()
         accesstoken(this.value).then((res) => {
+          console.log('success')
           if (res.status == ERR_OK) {
+              this.saveUserAccessToken(this.value)
               this.saveUserInfoAsync(res.data)
               this.loginToast.hide()
               this.$router.push({
@@ -97,6 +97,7 @@
               })
           }
         }).catch(err => {
+          console.log('err')
           this.loginToast.hide()
           this.$createToast({
             txt: 'Correct',

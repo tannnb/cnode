@@ -30,10 +30,11 @@
       <div class="content">
         <cube-scroll class="scroll">
           <div class="selectItem" v-for="(items, index) in contentData" :key="items.id">
-            <div class="title">  {{items.title}} </div>
+            <div class="title">主题：{{items.title}}</div>
             <div class="reply">{{items.last_reply_at | _formatDate}}</div>
           </div>
         </cube-scroll>
+
       </div>
 
 
@@ -54,7 +55,7 @@
       return {
         userData: {},
         currentIndex:0,
-        types:['recent_replies','recent_topics']
+        types:['recent_topics','recent_replies']
       }
     },
     computed: {
@@ -67,7 +68,7 @@
       this._getUserInfo()
     },
     mounted() {
-      console.log(this.userInfo)
+
     },
     methods: {
       goBack() {
@@ -81,6 +82,7 @@
       },
       selectItem(index){
         this.currentIndex = index
+       // console.log(this.userData[this.types[this.currentIndex]])
       }
     }
   }
@@ -216,37 +218,41 @@
 
   .content{
     position: fixed
-    top:208px
+    top:210px
     bottom:0
     width 100%
     overflow hidden
+    background #f5f5f5
     .scroll{
       height 100%
       overflow hidden
     }
     .selectItem{
-      display flex
       margin 12px
+      padding 10px
       align-items center
-      border 1px solid rgba(7,17,27,.1)
+      background #fff
+      border 1px solid rgba(7,17,27,.08)
       .title{
-        flex 1
+        margin-bottom  10px
+        line-height 20px
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
         overflow: hidden;
         text-overflow:ellipsis;
-        font-size 16px
+        font-size 17px
         color: #4a4c5b
       }
       .reply{
-        flex 0 0 140
-        width 140
         padding-left 20px
-        text-align center
+        text-align right
         font-size 12px
         color: #747c8f
       }
+    }
+    .no-content{
+
     }
   }
 

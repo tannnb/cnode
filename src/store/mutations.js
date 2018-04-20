@@ -12,6 +12,9 @@ const mutations = {
   },
   [types.SET_SINGOUT_LOGIN](state,singOut){
     state.userInfo = singOut
+  },
+  [types.SET_ACCESSTOKEN](state,accessToken){
+    state.accessToken = accessToken
   }
 }
 
