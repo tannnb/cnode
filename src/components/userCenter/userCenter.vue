@@ -28,13 +28,16 @@
         <div class="triangle-up" :class="{left: currentIndex === 0, right: currentIndex === 1}"></div>
       </div>
       <div class="content">
-        <cube-scroll class="scroll">
-          <div class="selectItem" v-for="(items, index) in contentData" :key="items.id">
+        <div class="no-content" v-if="contentData && contentData.length == 0">
+          <img src="./nocontent.png" width="110" alt="">
+          <p>暂无信息</p>
+        </div>
+        <cube-scroll class="scroll" ref="scroll" :data="contentData">
+          <div class="selectItem" v-for="(items, index) in contentData" :key="items.id" @click="handleSelectItem(items)">
             <div class="title">主题：{{items.title}}</div>
             <div class="reply">{{items.last_reply_at | _formatDate}}</div>
           </div>
         </cube-scroll>
-
       </div>
 
 
@@ -77,12 +80,14 @@
       _getUserInfo() {
         getUserInfo(this.userInfo.loginname).then(res => {
           this.userData = res.data.data
-          console.log(this.userData)
         })
       },
       selectItem(index){
         this.currentIndex = index
-       // console.log(this.userData[this.types[this.currentIndex]])
+       // this.$refs.scroll.refresh()
+      },
+      handleSelectItem(item){
+          console.log(item)
       }
     }
   }
@@ -252,7 +257,14 @@
       }
     }
     .no-content{
-
+        text-align center
+      img{
+        padding-top 120px
+      }
+      p{
+        padding-top 10px
+        color: #838383
+      }
     }
   }
 

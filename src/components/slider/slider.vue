@@ -13,8 +13,8 @@
         </div>
         <ul class="silderItem">
           <li class="items" @click="hide"><i class="icon-home"></i> 全部</li>
-          <li class="items" data-to="/topic" @click="goRouter"><i class="icon-topic"></i> 话题</li>
-          <li class="items" data-to="/message" @click="goRouter"><i class="icon-message"></i> 消息</li>
+          <li class="items" data-to="/topic" @click="goRouter"><i class="icon-topic"></i> 话题发表</li>
+          <li class="items" data-to="/message" @click="goRouter"><i class="icon-message"></i> 我的收藏</li>
           <li class="items" data-to="/userCenter" @click="goRouter"><i class="icon-user"></i> 个人中心</li>
         </ul>
         <div class="signOut" v-if="userInfo.success">

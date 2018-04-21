@@ -68,3 +68,16 @@ export function topics_theme(options) {
     return Promise.resolve(res)
   })
 }
+
+// 为评论点赞
+export function reply(id,accesstoken) {
+  const url = `https://cnodejs.org/api/v1/reply/${id}/ups`
+
+  const data = {
+    accesstoken
+  }
+
+  return axios.post(url,data).then((res) =>{
+    return Promise.resolve(res)
+  })
+}

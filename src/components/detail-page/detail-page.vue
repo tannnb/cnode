@@ -16,6 +16,8 @@
           <div class="visit">
             <i class="icon-reading"></i>{{detail.visit_count}}
             <i class="icon-message"></i>{{detail.reply_count}}
+
+
           </div>
         </div>
 
@@ -44,11 +46,14 @@
               <div class="author">
                 <span class="name">{{items.author.loginname}}</span>
                 <span class="time">{{ items.create_at | _formatDate }}</span>
-                </div>
-              <div class="number">{{index+1}}F</div>
+              </div>
+              <div class="number">{{index + 1}}F</div>
             </div>
             <div class="reply_content" v-html="items.content"></div>
-            <div class="like"> <i class="icon-zang"></i>点赞  <i class="icon-py"></i>回复 </div>
+            <div class="like">
+              <span @click="handleReplyClick(items)" :class="{ 'repltActive': items.repltActive}">
+                <i class="icon-zang"></i>点赞</span>
+              <span><i class="icon-py"></i>回复</span></div>
           </li>
         </ul>
         <div class="login-wrapper" v-if="!userInfo.success">
@@ -62,12 +67,12 @@
 
 <script type="text/ecmascript-6">
   require('../../common/stylus/markdown.css');
-  import {commonMixin,filterMixin} from '../../common/js/mixins'
+  import {commonMixin, filterMixin} from '../../common/js/mixins'
   import {mapGetters} from 'vuex'
-
+  import {reply} from '@/api/all'
 
   export default {
-    mixins: [commonMixin,filterMixin],
+    mixins: [commonMixin, filterMixin],
     props: {
       detail: {
         type: Object,
@@ -75,14 +80,14 @@
       }
     },
     data(){
-        return {
-          refreshDelay:1000,
-          detailScroll:[],
-          fullpath:''
-        }
+      return {
+        refreshDelay: 1000,
+        detailScroll: [],
+        fullpath: ''
+      }
     },
-    computed:{
-      ...mapGetters(['userInfo'])
+    computed: {
+      ...mapGetters(['userInfo', 'accessToken'])
     },
     mounted(){
       setTimeout(() => {
@@ -94,7 +99,7 @@
     },
     watch: {
       detail(newValue){
-        if (newValue){
+        if (newValue) {
           this.detailScroll.push(newValue)
           this.$refs.scroll.forceUpdate()
         }
@@ -108,9 +113,26 @@
         }
         return item.tab == 'ask' ? '问答' : item.tab == 'share' ? '分享' : item.tab == 'good' ? '精华' : item.tab == 'job' ? '招聘' : ''
       },
+
+      handleReplyClick(item){
+        reply(item.reply_id, this.accessToken).then(res => {
+            if(!item.repltActive){
+              this.$set(this.detail, 'repltActive', false)
+            }
+          console.log(item)
+          if (res.data.action == 'up') {
+            item.repltActive = true
+          } else {
+            item.repltActive = false
+          }
+          console.log(item)
+        })
+
+      },
+
       goLogin(e){
         this.$router.push({
-          path:"/login"
+          path: "/login"
         })
       }
     }
@@ -155,7 +177,7 @@
       position: relative
       display flex
       padding 0 12px 12px 12px
-      border-bottom 1px solid rgba(7,27,37,.1)
+      border-bottom 1px solid rgba(7, 27, 37, .1)
       .avatar {
         flex: 0 0 120
         border-radius 50%
@@ -203,7 +225,7 @@
           &.good {
             background #bf62ff
           }
-          &.job{
+          &.job {
             background #3aafff
           }
         }
@@ -218,14 +240,14 @@
 
     .title-wrapper {
       padding: 12px;
-      .title{
+      .title {
         font-size: 20px;
         color: #4f4f4f;
         line-height: 1.5;
         font-weight 700
       }
-      .visit{
-        i{
+      .visit {
+        i {
           padding 0px 4px 0px 10px
         }
         padding 6px 0
@@ -261,7 +283,7 @@
           .name {
             color #101010
           }
-          .time{
+          .time {
             font-size 13px
             padding-left 6px
             color #a4a4a4
@@ -281,23 +303,26 @@
         line-height 22px
         color: #2d2c2c
       }
-        .like{
-          padding 14px 10px 6px 0
-          text-align right
-          font-size 12px
-          color: #9d9d9d
-          i{
-            font-size 18px
-          }
-          i:nth-child(2){
-            padding-left 12px
-          }
+      .like {
+        padding 14px 10px 6px 0
+        text-align right
+        font-size 12px
+        color: #9d9d9d
+        span.repltActive {
+          color: #fc9153
         }
+        i {
+          font-size 18px
+        }
+        i:nth-child(2) {
+          padding-left 12px
+        }
+      }
     }
 
   }
 
-  .login-wrapper{
+  .login-wrapper {
     padding 40px 20px
   }
 

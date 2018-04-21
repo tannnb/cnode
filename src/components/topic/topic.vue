@@ -72,15 +72,30 @@
       methods:{
         _topics_theme(){
 
+          const topictoact = this.$createToast({
+            time: 0,
+            txt: '提交中...'
+          }).show()
+
+
           topics_theme({
             accesstoken:this.accessToken,
             tab:this.tab,
             title:this.themeTitle,
             content:this.contentValue
           }).then(res => {
-
+            topictoact.hide()
+            console.log(res)
+            this.$router.push({
+              path:`/index/${this.tab}`
+            })
           }).catch(error => {
-
+            topictoact.hide()
+            this.$createToast({
+              txt: `${error}`,
+              type: 'error',
+              time: 2000
+            }).show()
           })
         },
         goBack() {
@@ -110,39 +125,21 @@
           // 提交话题
           this.$createDialog({
             type: 'confirm',
-            icon: 'cubeic-alert',
-            title: '话题',
+            icon: 'cubeic-question',
             content: '是否立即提交当前话题？',
             confirmBtn: {
-              text: '确定',
-              active: true,
-              disabled: false,
+              text: '确定'
             },
             cancelBtn: {
               text: '取消',
-              active: false,
-              disabled: false,
+              active: false
             },
             onConfirm: () => {
-              /*const toast = this.$createToast({
-                time: 0,
-                txt: '提交中，请稍后...'
-              }).show()
-              setTimeout(() => {
-                toast.hide()
-              }, 2000)*/
               this._topics_theme()
             }
           }).show()
-
-
-
-
         }
-        /*change(value, index, text) {
-          console.log('change', value, index, text)
-          console.log(this.value)
-        }*/
+
       }
     }
 </script>
