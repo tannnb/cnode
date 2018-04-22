@@ -16,8 +16,6 @@
           <div class="visit">
             <i class="icon-reading"></i>{{detail.visit_count}}
             <i class="icon-message"></i>{{detail.reply_count}}
-
-
           </div>
         </div>
 
@@ -51,8 +49,8 @@
             </div>
             <div class="reply_content" v-html="items.content"></div>
             <div class="like">
-              <span @click="handleReplyClick(items)" :class="{ 'repltActive': items.repltActive}">
-                <i class="icon-zang"></i>点赞</span>
+              <span @click="handleReplyClick(items)"  :class="{'repltActive':isUps(items.ups)}"  >
+                <i class="icon-zang"></i>点赞({{items.ups.length}})</span>
               <span><i class="icon-py"></i>回复</span></div>
           </li>
         </ul>
@@ -89,6 +87,7 @@
     computed: {
       ...mapGetters(['userInfo', 'accessToken'])
     },
+
     mounted(){
       setTimeout(() => {
         if (!this.detail.id) {
@@ -114,20 +113,29 @@
         return item.tab == 'ask' ? '问答' : item.tab == 'share' ? '分享' : item.tab == 'good' ? '精华' : item.tab == 'job' ? '招聘' : ''
       },
 
-      handleReplyClick(item){
-        reply(item.reply_id, this.accessToken).then(res => {
-            if(!item.repltActive){
-              this.$set(this.detail, 'repltActive', false)
-            }
-          console.log(item)
-          if (res.data.action == 'up') {
-            item.repltActive = true
-          } else {
-            item.repltActive = false
-          }
-          console.log(item)
-        })
+      isUps(ups){
+        return ups.indexOf(this.userInfo.id) > -1
+      },
 
+      handleReplyClick(item){
+        reply(item.id, this.accessToken).then(res => {
+
+          if (!this.userInfo.loginname) {
+            this.$router.push({
+              path:'/login'
+            });
+            return;
+          }
+
+          if (res.data.action == 'down') {
+            const index = item.ups.indexOf(this.userInfo.id);
+            if (index > -1) {
+              item.ups.splice(index, 1);
+            }
+          } else {
+            item.ups.push(this.userInfo.id);
+          }
+        })
       },
 
       goLogin(e){

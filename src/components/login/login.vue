@@ -87,7 +87,7 @@
           txt: '登陆中，请稍后...'
         }).show()
         accesstoken(this.value).then((res) => {
-          console.log('success')
+          console.log(res)
           if (res.status == ERR_OK) {
               this.saveUserAccessToken(this.value)
               this.saveUserInfoAsync(res.data)
