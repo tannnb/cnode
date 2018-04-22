@@ -51,9 +51,21 @@
             <div class="like">
               <span @click="handleReplyClick(items)"  :class="{'repltActive':isUps(items.ups)}"  >
                 <i class="icon-zang"></i>点赞({{items.ups.length}})</span>
-              <span><i class="icon-py"></i>回复</span></div>
+              <span @click="handleAddReplyClick(items)"><i class="icon-py"></i>回复</span></div>
+            <div class="Markdown-wrapper" v-if="userInfo.loginname && replyId === items.id">
+              <Markdown @confirm="confirm"></Markdown>
+            </div>
           </li>
         </ul>
+
+        <div class="self_Markdown-wrapper" v-if="userInfo.success">
+          <cube-textarea
+            v-model="markdown"
+            :placeholder="replyplaceholder"
+          ></cube-textarea>
+          <cube-button class="btn" :primary="true" >回复</cube-button>
+        </div>
+
         <div class="login-wrapper" v-if="!userInfo.success">
           <cube-button @click="goLogin" :primary="true" :outline="true">未登录，是否立即登录?</cube-button>
         </div>
@@ -68,6 +80,8 @@
   import {commonMixin, filterMixin} from '../../common/js/mixins'
   import {mapGetters} from 'vuex'
   import {reply} from '@/api/all'
+  import Markdown from 'base/Markdown/Markdown'
+
 
   export default {
     mixins: [commonMixin, filterMixin],
@@ -81,8 +95,14 @@
       return {
         refreshDelay: 1000,
         detailScroll: [],
-        fullpath: ''
+        fullpath: '',
+        replyId:'',
+        markdown:'',
+        replyplaceholder: '回复支持Markdown语法,请注意标记代码',
       }
+    },
+    components:{
+      Markdown
     },
     computed: {
       ...mapGetters(['userInfo', 'accessToken'])
@@ -136,6 +156,18 @@
             item.ups.push(this.userInfo.id);
           }
         })
+      },
+
+      confirm(bool){
+          if(!bool){
+            this.replyId = '';
+            return
+          }
+          // code
+      },
+
+      handleAddReplyClick(items){
+        this.replyId = items.id;
       },
 
       goLogin(e){
@@ -322,17 +354,36 @@
         i {
           font-size 18px
         }
-        i:nth-child(2) {
+        span:nth-child(2) {
           padding-left 12px
         }
       }
+        .Markdown-wrapper{
+          padding 10px 12px 6px 46px
+        }
     }
+
+
+      .self_Markdown-wrapper{
+        padding 24px
+        .btn{
+          margin-top 24px
+        }
+      }
 
   }
 
   .login-wrapper {
     padding 40px 20px
   }
-
+  .cube-textarea-wrapper::after{
+    border-color: #e3e3e3
+  }
+  .cube-textarea-wrapper {
+    height: 140px
+  }
+  .cube-textarea_expanded {
+    height 160px
+  }
 
 </style>
