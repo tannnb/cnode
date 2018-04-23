@@ -77,7 +77,9 @@
       }),
 
       goBack() {
-        this.$router.back()
+       this.$router.push({
+          path:'/index/all'
+        })
       },
 
       _getUserInfo() {

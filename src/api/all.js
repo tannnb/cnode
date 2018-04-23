@@ -81,3 +81,19 @@ export function reply(id,accesstoken) {
     return Promise.resolve(res)
   })
 }
+
+
+export function replies (options) {
+  const url = `https://cnodejs.org/api/v1/topic/${options.id}/replies`
+
+  const data = {
+    accesstoken:options.accesstoken,
+    id:options.id,
+    content:options.content,
+    reply_id:options.reply_id? options.reply_id:''
+  }
+
+  return axios.post(url,data).then((res) =>{
+    return Promise.resolve(res)
+  })
+}

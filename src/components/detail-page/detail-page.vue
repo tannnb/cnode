@@ -62,8 +62,9 @@
           <cube-textarea
             v-model="markdown"
             :placeholder="replyplaceholder"
+            :maxlength="maxlength"
           ></cube-textarea>
-          <cube-button class="btn" :primary="true" >回复</cube-button>
+          <cube-button class="btn" :primary="true" @click="handleRepliesClick">回复</cube-button>
         </div>
 
         <div class="login-wrapper" v-if="!userInfo.success">
@@ -79,7 +80,7 @@
   require('../../common/stylus/markdown.css');
   import {commonMixin, filterMixin} from '../../common/js/mixins'
   import {mapGetters} from 'vuex'
-  import {reply} from '@/api/all'
+  import {reply,replies} from '@/api/all'
   import Markdown from 'base/Markdown/Markdown'
 
 
@@ -99,13 +100,14 @@
         replyId:'',
         markdown:'',
         replyplaceholder: '回复支持Markdown语法,请注意标记代码',
+        maxlength:1000
       }
     },
     components:{
       Markdown
     },
     computed: {
-      ...mapGetters(['userInfo', 'accessToken'])
+      ...mapGetters(['userInfo','author', 'accessToken'])
     },
 
     mounted(){
@@ -120,6 +122,7 @@
       detail(newValue){
         if (newValue) {
           this.detailScroll.push(newValue)
+
           this.$refs.scroll.forceUpdate()
         }
       }
@@ -170,6 +173,23 @@
         this.replyId = items.id;
       },
 
+      // 回复
+      handleRepliesClick(){
+        const ret = {
+          "id": this.author.id,
+          "accesstoken": this.accessToken,
+          "content": this.markdown
+        }
+        const lastReplise = this.detail.replies.slice(this.detail.replies.length-1)
+       replies(ret).then(res => {
+           lastReplise.content = `<div class="markdown-text">${this.markdown}</div>`
+           this.$nextTick(() => {
+             this.detail.replies.concat(lastReplise)
+           })
+        })
+
+      },
+
       goLogin(e){
         this.$router.push({
           path: "/login"
@@ -179,6 +199,8 @@
   };
 
 </script>
+
+
 
 <style scoped lang="stylus" rel="stylesheet/stylus" type="text/stylus">
   .header {
