@@ -1,61 +1,58 @@
 <template>
   <transition name="slide">
     <div class="detail-wrapper">
-       <detail-page :detail="detail"></detail-page>
+      <detail-page :detail="detail"></detail-page>
     </div>
   </transition>
 </template>
 
 <script type="text/ecmascript-6">
-  import detailPage from '../../detail-page/detail-page.vue'
-  import {Topics_detail} from 'api/all'
+  import detailPage from '../../../components/detail-page/detail-page'
   import {mapGetters,mapMutations} from 'vuex'
+  import {Topics_detail} from "../../../api/all";
 
   const ERR_OK = true
+
   export default {
     data() {
       return {
-        detail: {}
+        detail:{}
       }
-    },
-    components: {
-      detailPage
-    },
-    created() {
-      this._Topics_detail()
-    },
-    beforeRouteEnter (to, from, next) {
-      next(vm => {
-          if(from.path === '/login'){
-              return
-          }
-        vm.setPathUrl(from.path)
-      })
     },
     computed: {
       ...mapGetters(['author'])
     },
-    methods: {
+    components: {
+      detailPage
+    },
+    beforeRouteEnter (to, from, next) {
+      next(vm => {
+        vm.setPathUrl(from.path)
+      })
+    },
+    created(){
+      this._Topics_detail()
+    },
+    methods:{
       ...mapMutations({
         'setPathUrl':'SET_PATH_URL'
       }),
-      async _Topics_detail() {
-        if (!this.author.id) {
+      _Topics_detail(){
+        if(!this.author.id){
           this.$router.back()
           return;
         }
-        await Topics_detail(this.author.id).then(res => {
-          if (res.data.success === ERR_OK) {
+        Topics_detail(this.author.id).then(res => {
+          if(res.data.success === ERR_OK){
             this.detail = res.data.data
           }
         })
       }
     }
-  };
-
+  }
 </script>
 
-<style scoped lang="stylus" rel="stylesheet/stylus" type="text/stylus">
+<style scoped lang="stylus" rel="stylesheet/stylus">
   .detail-wrapper {
     position: fixed
     top: 0

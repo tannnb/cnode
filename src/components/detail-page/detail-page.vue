@@ -380,7 +380,7 @@
     border-color: #e3e3e3
   }
   .cube-textarea-wrapper {
-    height: 140px
+    height: 80px
   }
   .cube-textarea_expanded {
     height 160px

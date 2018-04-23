@@ -39,15 +39,13 @@
           </div>
         </cube-scroll>
       </div>
-
-
-
+      <router-view></router-view>
     </div>
   </transition>
 </template>
 
 <script type="text/ecmascript-6">
-  import {mapGetters} from 'vuex'
+  import {mapGetters,mapMutations} from 'vuex'
   import {getUserInfo} from '@/api/all'
   import {filterMixin} from '../../common/js/mixins'
 
@@ -74,9 +72,14 @@
 
     },
     methods: {
+      ...mapMutations({
+        'set_author': 'SET_AUTHOR'
+      }),
+
       goBack() {
         this.$router.back()
       },
+
       _getUserInfo() {
         getUserInfo(this.userInfo.loginname).then(res => {
           this.userData = res.data.data
@@ -84,10 +87,13 @@
       },
       selectItem(index){
         this.currentIndex = index
-       // this.$refs.scroll.refresh()
+        this.$refs.scroll.refresh()
       },
       handleSelectItem(item){
-          console.log(item)
+        this.set_author(item)
+        this.$router.push({
+          path:`/userCenter/${item.id}`
+        })
       }
     }
   }
@@ -267,6 +273,5 @@
       }
     }
   }
-
 
 </style>

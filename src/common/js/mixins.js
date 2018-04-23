@@ -24,8 +24,7 @@ export const commonMixin = {
     },
     showToastMask(text){
       return this.$createToast({
-        txt: text? text :'加载中...',
-        mask: true
+        txt: text? text :'加载中...'
       })
     },
     showToastType(type='correct',txt='暂无信息') {
