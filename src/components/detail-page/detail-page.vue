@@ -22,7 +22,7 @@
         <div v-if="detail.author" class="detail-avatar">
           <div class="avatar"><img width="40" :src="detail.author.avatar_url" alt=""></div>
           <div class="descript">
-            <div class="name">{{detail.author.loginname}} </div>
+            <div class="name">{{detail.author.loginname}}</div>
             <div class="replyTime">发布于:{{detail.create_at | _formatDate}}</div>
           </div>
           <div class="visit">
@@ -32,7 +32,7 @@
 
         <section class='markdown-body topic-content' v-html="detail.content"></section>
 
-        <div class="title-reply">共 {{detail.reply_count}} 条回复 </div>
+        <div class="title-reply">共 {{detail.reply_count}} 条回复</div>
 
         <ul class="selectItem-wrapper">
           <li
@@ -49,7 +49,7 @@
             </div>
             <div class="reply_content" v-html="items.content"></div>
             <div class="like">
-              <span @click="handleReplyClick(items)"  :class="{'repltActive':isUps(items.ups)}"  >
+              <span @click="handleReplyClick(items)" :class="{'repltActive':isUps(items.ups)}">
                 <i class="icon-zang"></i>点赞({{items.ups.length}})</span>
               <span @click="handleAddReplyClick(items)"><i class="icon-py"></i>回复</span></div>
             <div class="Markdown-wrapper" v-if="userInfo.loginname && replyId === items.id">
@@ -80,7 +80,7 @@
   require('../../common/stylus/markdown.css');
   import {commonMixin, filterMixin} from '../../common/js/mixins'
   import {mapGetters} from 'vuex'
-  import {reply,replies} from '@/api/all'
+  import {reply, replies} from '@/api/all'
   import Markdown from 'base/Markdown/Markdown'
 
 
@@ -92,25 +92,25 @@
         default: {}
       }
     },
-    data(){
+    data() {
       return {
         refreshDelay: 1000,
         detailScroll: [],
         fullpath: '',
-        replyId:'',
-        markdown:'',
+        replyId: '',
+        markdown: '',
         replyplaceholder: '回复支持Markdown语法,请注意标记代码',
-        maxlength:1000
+        maxlength: 1000
       }
     },
-    components:{
+    components: {
       Markdown
     },
     computed: {
-      ...mapGetters(['userInfo','author', 'accessToken'])
+      ...mapGetters(['userInfo', 'author', 'accessToken'])
     },
 
-    mounted(){
+    mounted() {
       setTimeout(() => {
         if (!this.detail.id) {
           return
@@ -119,7 +119,7 @@
       }, 100)
     },
     watch: {
-      detail(newValue){
+      detail(newValue) {
         if (newValue) {
           this.detailScroll.push(newValue)
 
@@ -129,23 +129,23 @@
     },
 
     methods: {
-      iconMode(item){
+      iconMode(item) {
         if (item.top) {
           return '置顶'
         }
         return item.tab == 'ask' ? '问答' : item.tab == 'share' ? '分享' : item.tab == 'good' ? '精华' : item.tab == 'job' ? '招聘' : ''
       },
 
-      isUps(ups){
+      isUps(ups) {
         return ups.indexOf(this.userInfo.id) > -1
       },
 
-      handleReplyClick(item){
+      handleReplyClick(item) {
         reply(item.id, this.accessToken).then(res => {
 
           if (!this.userInfo.loginname) {
             this.$router.push({
-              path:'/login'
+              path: '/login'
             });
             return;
           }
@@ -161,36 +161,38 @@
         })
       },
 
-      confirm(bool){
-          if(!bool){
-            this.replyId = '';
-            return
-          }
-          // code
+      confirm(bool) {
+        if (!bool) {
+          this.replyId = '';
+          return
+        }
+        // code
       },
 
-      handleAddReplyClick(items){
+      handleAddReplyClick(items) {
         this.replyId = items.id;
       },
 
       // 回复
-      handleRepliesClick(){
+      handleRepliesClick() {
         const ret = {
           "id": this.author.id,
           "accesstoken": this.accessToken,
           "content": this.markdown
         }
-        const lastReplise = this.detail.replies.slice(this.detail.replies.length-1)
-       replies(ret).then(res => {
-           lastReplise.content = `<div class="markdown-text">${this.markdown}</div>`
-           this.$nextTick(() => {
-             this.detail.replies.concat(lastReplise)
-           })
-        })
+
+        let lastReplise = JSON.parse(JSON.stringify(this.detail.replies.slice(this.detail.replies.length - 1)[0]))
+        lastReplise.content = `<div class="markdown-text">${this.markdown}</div>`
+        this.detail.replies.push(lastReplise)
+
+       /* replies(ret).then(res => {
+          lastReplise.content = `<div class="markdown-text">${this.markdown}</div>`
+          this.detail.replies.push(lastReplise)
+        })*/
 
       },
 
-      goLogin(e){
+      goLogin(e) {
         this.$router.push({
           path: "/login"
         })
@@ -199,7 +201,6 @@
   };
 
 </script>
-
 
 
 <style scoped lang="stylus" rel="stylesheet/stylus" type="text/stylus">
@@ -380,30 +381,32 @@
           padding-left 12px
         }
       }
-        .Markdown-wrapper{
-          padding 10px 12px 6px 46px
-        }
+      .Markdown-wrapper {
+        padding 10px 12px 6px 46px
+      }
     }
 
-
-      .self_Markdown-wrapper{
-        padding 24px
-        .btn{
-          margin-top 24px
-        }
+    .self_Markdown-wrapper {
+      padding 24px
+      .btn {
+        margin-top 24px
       }
+    }
 
   }
 
   .login-wrapper {
     padding 40px 20px
   }
-  .cube-textarea-wrapper::after{
+
+  .cube-textarea-wrapper::after {
     border-color: #e3e3e3
   }
+
   .cube-textarea-wrapper {
     height: 80px
   }
+
   .cube-textarea_expanded {
     height 160px
   }
