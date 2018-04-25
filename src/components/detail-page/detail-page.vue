@@ -153,17 +153,15 @@
       handleReplyClick(item) {
         if(  item.author.loginname == this.userInfo.loginname ){
           this.showAlert()
-          console.log(1)
+         return false
         }
-        /*reply(item.id, this.accessToken).then(res => {
-
+        reply(item.id, this.accessToken).then(res => {
           if (!this.userInfo.loginname) {
             this.$router.push({
               path: '/login'
             });
             return;
           }
-
           if (res.data.action == 'down') {
             const index = item.ups.indexOf(this.userInfo.id);
             if (index > -1) {
@@ -172,7 +170,7 @@
           } else {
             item.ups.push(this.userInfo.id);
           }
-        })*/
+        })
       },
 
       confirm(bool) {
@@ -208,13 +206,11 @@
           reply_id:null,
           ups:[]
         }
-        this.detail.replies.push(lastReplise)
-        console.log(this.detail)
-
-       /* replies(ret).then(res => {
-          lastReplise.content = `<div class="markdown-text">${this.markdown}</div>`
-          this.detail.replies.push(lastReplise)
-        })*/
+        replies(ret).then(res => {
+          if(res.data.success === true){
+            this.detail.replies.push(lastReplise)
+          }
+        })
 
       },
 
