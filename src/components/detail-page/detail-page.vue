@@ -136,12 +136,26 @@
         return item.tab == 'ask' ? '问答' : item.tab == 'share' ? '分享' : item.tab == 'good' ? '精华' : item.tab == 'job' ? '招聘' : ''
       },
 
+      showAlert() {
+        this.$createDialog({
+          type: 'alert',
+          title: '不能给自己点赞',
+          icon: 'cubeic-alert'
+        }).show()
+      },
+
       isUps(ups) {
         return ups.indexOf(this.userInfo.id) > -1
       },
 
+
+      // 点赞
       handleReplyClick(item) {
-        reply(item.id, this.accessToken).then(res => {
+        if(  item.author.loginname == this.userInfo.loginname ){
+          this.showAlert()
+          console.log(1)
+        }
+        /*reply(item.id, this.accessToken).then(res => {
 
           if (!this.userInfo.loginname) {
             this.$router.push({
@@ -158,7 +172,7 @@
           } else {
             item.ups.push(this.userInfo.id);
           }
-        })
+        })*/
       },
 
       confirm(bool) {
@@ -182,8 +196,20 @@
         }
 
         let lastReplise = JSON.parse(JSON.stringify(this.detail.replies.slice(this.detail.replies.length - 1)[0]))
-        lastReplise.content = `<div class="markdown-text">${this.markdown}</div>`
+        lastReplise = {
+          author:{
+            avatar_url:this.userInfo.avatar_url,
+            loginname:this.userInfo.loginname
+          },
+          content:`<div class="markdown-text">${this.markdown}</div>`,
+          create_at:new Date().toUTCString(),
+          id:this.userInfo.id,
+          is_uped:'false',
+          reply_id:null,
+          ups:[]
+        }
         this.detail.replies.push(lastReplise)
+        console.log(this.detail)
 
        /* replies(ret).then(res => {
           lastReplise.content = `<div class="markdown-text">${this.markdown}</div>`
