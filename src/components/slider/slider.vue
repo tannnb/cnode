@@ -15,7 +15,7 @@
           <li class="items" @click="hide"><i class="icon-home"></i> 全部</li>
           <li class="items" data-to="/topic" @click="goRouter"><i class="icon-topic"></i> 话题发表</li>
           <li class="items" data-to="/message" @click="goRouter_message"><i class="icon-message"></i>
-            我的收藏<span v-if="countData && countFlow === 1" class="count">{{countData}}</span>
+            我的消息<span v-if="countData && countFlow === 1" class="count">{{countData}}</span>
           </li>
           <li class="items" data-to="/userCenter" @click="goRouter"><i class="icon-user"></i> 个人中心</li>
         </ul>

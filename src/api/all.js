@@ -110,3 +110,19 @@ export function getMessageCount(accesstoken) {
     return Promise.resolve(res)
   })
 }
+
+
+export function getMessages(accesstoken) {
+  const url = `https://cnodejs.org/api/v1/messages`
+
+  const data = {
+    accesstoken,
+    mdrender:true
+  }
+  return axios.get(url, {
+    params:data
+  }).then((res) =>{
+    return Promise.resolve(res)
+  })
+}
+

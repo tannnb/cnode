@@ -207,12 +207,17 @@
 
       // 回复
       handleRepliesClick() {
+
         const ret = {
           "id": this.author.id,
           "accesstoken": this.accessToken,
           "content": this.markdown
         }
-        let lastReplise = JSON.parse(JSON.stringify(this.detail.replies.slice(this.detail.replies.length - 1)[0]))
+        let lastReplise;
+
+        if(this.detail.replies.length !== 0){
+           lastReplise = JSON.parse(JSON.stringify(this.detail.replies.slice(this.detail.replies.length - 1)[0]))
+        }
         lastReplise = {
           author: {
             avatar_url: this.userInfo.avatar_url,
@@ -225,6 +230,7 @@
           reply_id: null,
           ups: []
         }
+
         replies(ret).then(res => {
           if (res.data.success === true) {
             this.detail.replies.push(lastReplise)
