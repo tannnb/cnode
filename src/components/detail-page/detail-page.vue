@@ -52,9 +52,12 @@
               <span @click="handleReplyClick(items)" :class="{'repltActive':isUps(items.ups)}">
                 <i class="icon-zang"></i>点赞({{items.ups.length}})</span>
               <span @click="handleAddReplyClick(items)"><i class="icon-py"></i>回复</span></div>
-            <div class="Markdown-wrapper" v-if="userInfo.loginname && replyId === items.id">
-              <Markdown @confirm="confirm"></Markdown>
-            </div>
+             <!-- <div class="Markdown-wrapper" v-if="userInfo.loginname && replyId.id === items.id">
+                <Markdown
+                  @confirm="confirm"
+                  @query="query"
+                ></Markdown>
+              </div>-->
           </li>
         </ul>
 
@@ -100,7 +103,9 @@
         replyId: '',
         markdown: '',
         replyplaceholder: '回复支持Markdown语法,请注意标记代码',
-        maxlength: 1000
+        maxlength: 1000,
+        replyData:'',
+        contentQuery:''
       }
     },
     components: {
@@ -148,12 +153,11 @@
         return ups.indexOf(this.userInfo.id) > -1
       },
 
-
       // 点赞
       handleReplyClick(item) {
-        if(  item.author.loginname == this.userInfo.loginname ){
+        if (item.author.loginname == this.userInfo.loginname) {
           this.showAlert()
-         return false
+          return false
         }
         reply(item.id, this.accessToken).then(res => {
           if (!this.userInfo.loginname) {
@@ -173,16 +177,32 @@
         })
       },
 
+     /* contentValue(value){
+        this.replyValue111 = value
+      },*/
+
+      query(query){
+        this.contentQuery = query
+      },
+
       confirm(bool) {
+       /*
         if (!bool) {
           this.replyId = '';
           return
         }
-        // code
+       */
+        const ret = {
+          "id": this.author.id,
+          "accesstoken": this.accessToken,
+          "content": this.contentQuery,
+          "reply_id":this.replyId
+        }
+        console.log(ret)
       },
 
       handleAddReplyClick(items) {
-        this.replyId = items.id;
+        this.replyId = items;
       },
 
       // 回复
@@ -192,26 +212,25 @@
           "accesstoken": this.accessToken,
           "content": this.markdown
         }
-
         let lastReplise = JSON.parse(JSON.stringify(this.detail.replies.slice(this.detail.replies.length - 1)[0]))
         lastReplise = {
-          author:{
-            avatar_url:this.userInfo.avatar_url,
-            loginname:this.userInfo.loginname
+          author: {
+            avatar_url: this.userInfo.avatar_url,
+            loginname: this.userInfo.loginname
           },
-          content:`<div class="markdown-text">${this.markdown}</div>`,
-          create_at:new Date().toUTCString(),
-          id:this.userInfo.id,
-          is_uped:'false',
-          reply_id:null,
-          ups:[]
+          content: `<div class="markdown-text">${this.markdown}</div>`,
+          create_at: new Date().toUTCString(),
+          id: this.userInfo.id,
+          is_uped: 'false',
+          reply_id: null,
+          ups: []
         }
         replies(ret).then(res => {
-          if(res.data.success === true){
+          if (res.data.success === true) {
             this.detail.replies.push(lastReplise)
+            this.markdown = ''
           }
         })
-
       },
 
       goLogin(e) {

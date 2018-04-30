@@ -82,7 +82,6 @@ export function reply(id,accesstoken) {
   })
 }
 
-
 export function replies (options) {
   const url = `https://cnodejs.org/api/v1/topic/${options.id}/replies`
 

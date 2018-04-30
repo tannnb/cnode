@@ -1,7 +1,7 @@
 <template>
   <div>
     <cube-textarea
-      v-model="value"
+      v-model="query"
       :placeholder="placeholder"
       :maxlength="maxlength"
       :autofocus="autofocus"
@@ -14,7 +14,7 @@
   export default {
     data(){
       return {
-        value: '',
+        query: '',
         placeholder: '回复支持Markdown语法,请注意标记代码',
         maxlength: 1000,
         autofocus: true
@@ -22,15 +22,20 @@
     },
     computed: {
       infoText(){
-        if(this.value){
+        if(this.query){
             return '确定'
         }
         return '取消'
       }
     },
+    created(){
+      this.$watch('query', (newQuery) => {
+        this.$emit('query', newQuery)
+      })
+    },
     methods:{
       confirm(){
-         if(this.value){
+         if(this.query){
              this.$emit('confirm',true)
          }else{
            this.$emit('confirm',false)
