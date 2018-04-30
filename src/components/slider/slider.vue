@@ -14,7 +14,9 @@
         <ul class="silderItem">
           <li class="items" @click="hide"><i class="icon-home"></i> 全部</li>
           <li class="items" data-to="/topic" @click="goRouter"><i class="icon-topic"></i> 话题发表</li>
-          <li class="items" data-to="/message" @click="goRouter"><i class="icon-message"></i> 我的收藏</li>
+          <li class="items" data-to="/message" @click="goRouter_message"><i class="icon-message"></i>
+            我的收藏<span v-if="countData && countFlow === 1" class="count">{{countData}}</span>
+          </li>
           <li class="items" data-to="/userCenter" @click="goRouter"><i class="icon-user"></i> 个人中心</li>
         </ul>
         <div class="signOut" v-if="userInfo.success">
@@ -27,21 +29,27 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {mapGetters,mapActions} from 'vuex'
+  import {mapGetters,mapActions,mapMutations} from 'vuex'
+  import {getMessageCount} from '@/api/all'
+
   export default {
     data(){
       return {
-        sliderFlag: false
+        sliderFlag: false,
+        countData:''
       }
     },
     computed: {
-      ...mapGetters(['userInfo']),
+      ...mapGetters(['userInfo','accessToken','countFlow']),
       loginnane(){
         return this.userInfo.loginname
       },
       avatar(){
         return this.userInfo.avatar_url
       }
+    },
+    created(){
+      this._getMessageCount()
     },
     mounted(){
       console.log(this.userInfo)
@@ -50,6 +58,9 @@
       ...mapActions([
           'singOutLoginAsync'
       ]),
+      ...mapMutations({
+        "set_countFlow":"SET_COUNTFLOW"
+      }),
       show(){
         this.sliderFlag = true
       },
@@ -61,6 +72,13 @@
           this.$router.push({
             path:`${path}`
           })
+      },
+      goRouter_message(e){
+        const path = e.target.getAttribute('data-to')
+        this.set_countFlow()
+        this.$router.push({
+          path:`${path}`
+        })
       },
       goLogin(){
         this.$router.push({
@@ -87,6 +105,15 @@
           }
         }).show()
 
+      },
+      _getMessageCount(){
+        getMessageCount(this.accessToken).then(res => {
+          if(res.data.success === true){
+            this.countData = res.data.data
+          }
+        }).catch(err => {
+          console.log(err)
+        })
       }
     }
   };
@@ -156,10 +183,25 @@
       padding-left 14%
       padding-top 20px
       .items {
+        position: relative
         padding 10px 0
         font-size 18px
         line-height 28px
         color: #5d5d5d
+        .count{
+          position: absolute
+          margin-top -5px
+          margin-left 4px
+          display inline-block
+          width 20px
+          height: 20px
+          line-height: 20px
+          background red
+          color: #fff
+          font-size 14px
+          border-radius 50%
+          text-align center
+        }
       }
     }
 

@@ -96,3 +96,17 @@ export function replies (options) {
     return Promise.resolve(res)
   })
 }
+
+
+export function getMessageCount(accesstoken) {
+  const url = `https://cnodejs.org/api/v1/message/count`
+
+  const data = {
+    accesstoken
+  }
+  return axios.get(url, {
+    params:data
+  }).then((res) =>{
+    return Promise.resolve(res)
+  })
+}

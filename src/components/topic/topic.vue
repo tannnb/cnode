@@ -30,7 +30,8 @@
 
         <cube-button class="InputBtn"
                      @click="handlePublishClick"
-          :primary="true">发表</cube-button>
+                     :primary="true">发表
+        </cube-button>
 
       </div>
 
@@ -42,106 +43,105 @@
   import {topics_theme} from '@/api/all'
   import {mapGetters} from 'vuex'
 
-    export default {
-        data() {
-          return {
-            options:[
-              { text: '招聘', value: 'job'},
-              { text: '客户端测试', value: 'dev'},
-              { text: '分享', value: 'share'},
-              { text: '问答', value: 'ask'}
-            ],
-            tab:'',
-            autoPop:false,
-            disabled:false,
-            placeholder:'请选择话题',
-            themeTitle:'',
-            type:'text',
-            titleplaceholder:'请输入标题',
-            clearable:true,
-            contentValue:'',
-            contentplaceholder:'请输入您的内容，且30个字符以上',
-            contentmaxlength:10000
-          }
-        },
-      created(){
-      },
-      computed:{
-        ...mapGetters(['accessToken'])
-      },
-      methods:{
-        _topics_theme(){
+  export default {
+    data() {
+      return {
+        options: [
+          {text: '分享', value: 'share'},
+          {text: '问答', value: 'ask'},
+          {text: '招聘', value: 'job'}
+        ],
+        tab: '',
+        autoPop: false,
+        disabled: false,
+        placeholder: '请选择话题',
+        themeTitle: '',
+        type: 'text',
+        titleplaceholder: '请输入标题',
+        clearable: true,
+        contentValue: '',
+        contentplaceholder: '请输入您的内容，且30个字符以上',
+        contentmaxlength: 10000
+      }
+    },
+    created() {
+    },
+    computed: {
+      ...mapGetters(['accessToken'])
+    },
+    methods: {
+      _topics_theme() {
 
-          const topictoact = this.$createToast({
-            time: 0,
-            txt: '提交中...'
-          }).show()
+        const topictoact = this.$createToast({
+          time: 0,
+          txt: '提交中...'
+        }).show()
 
 
-          topics_theme({
-            accesstoken:this.accessToken,
-            tab:this.tab,
-            title:this.themeTitle,
-            content:this.contentValue
-          }).then(res => {
-            topictoact.hide()
-            console.log(res)
-            this.$router.push({
-              path:`/index/${this.tab}`
-            })
-          }).catch(error => {
-            topictoact.hide()
-            this.$createToast({
-              txt: `${error}`,
-              type: 'error',
-              time: 2000
-            }).show()
+        topics_theme({
+          accesstoken: this.accessToken,
+          tab: this.tab,
+          title: this.themeTitle,
+          content: this.contentValue
+        }).then(res => {
+          topictoact.hide()
+          console.log(res)
+          this.$router.push({
+            path: `/index/${this.tab}`
           })
-        },
-        goBack() {
-          this.$router.back()
-        },
-        showToastType(txt) {
-          return this.$createToast({
-            txt:txt,
+        }).catch(error => {
+          topictoact.hide()
+          this.$createToast({
+            txt: `${error}`,
             type: 'error',
-            time:1000
-          })
-        },
-        handlePublishClick(){
-          if (!this.tab){
-            this.showToastType('请选择话题类型').show()
-            return;
-          }
-          if (!this.themeTitle){
-            this.showToastType('标题不能为空!').show()
-            return;
-          }
-          if (!this.contentValue){
-            this.showToastType('内容区域不能为空!').show()
-            return;
-          }
-
-          // 提交话题
-          this.$createDialog({
-            type: 'confirm',
-            icon: 'cubeic-question',
-            content: '是否立即提交当前话题？',
-            confirmBtn: {
-              text: '确定'
-            },
-            cancelBtn: {
-              text: '取消',
-              active: false
-            },
-            onConfirm: () => {
-              this._topics_theme()
-            }
+            time: 2000
           }).show()
+        })
+      },
+      goBack() {
+        this.$router.back()
+      },
+      showToastType(txt) {
+        return this.$createToast({
+          txt: txt,
+          type: 'error',
+          time: 1000
+        })
+      },
+      handlePublishClick() {
+        if (!this.tab) {
+          this.showToastType('请选择话题类型').show()
+          return;
+        }
+        if (!this.themeTitle) {
+          this.showToastType('标题不能为空!').show()
+          return;
+        }
+        if (!this.contentValue) {
+          this.showToastType('内容区域不能为空!').show()
+          return;
         }
 
+        // 提交话题
+        this.$createDialog({
+          type: 'confirm',
+          icon: 'cubeic-question',
+          content: '是否立即提交当前话题？',
+          confirmBtn: {
+            text: '确定'
+          },
+          cancelBtn: {
+            text: '取消',
+            active: false
+          },
+          onConfirm: () => {
+            this._topics_theme()
+          }
+        }).show()
       }
+
     }
+  }
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
@@ -164,7 +164,7 @@
 
   .topicHeader {
     position: relative
-    border-bottom 1px solid rgba(7,17,27,.1)
+    border-bottom 1px solid rgba(7, 17, 27, .1)
     .icon-wrapper {
       position: absolute
       top: 0
@@ -187,21 +187,23 @@
     }
   }
 
-  .cube-input::after,.cube-textarea-wrapper::after{
+  .cube-input::after, .cube-textarea-wrapper::after {
     border-color: #ccc
   }
+
   .cube-textarea_expanded {
-      height 200px
+    height 200px
   }
-  .oContent{
+
+  .oContent {
     padding 24px
-    .titleInput{
-      margin-top  20px
+    .titleInput {
+      margin-top 20px
     }
-    .textareaInput{
-      margin-top  20px
+    .textareaInput {
+      margin-top 20px
     }
-    .InputBtn{
+    .InputBtn {
       margin-top 60px
     }
   }
