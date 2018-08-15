@@ -15,7 +15,11 @@
 > * 个人中心            √
 > * 完善中...
 
+在线预览
+> (http://tannnb.com/cnode)
 
+
+![二维码](https:////qr.api.cli.im/qr?data=http%253A%252F%252Ftannnb.com%252Fcnode&level=H&transparent=false&bgcolor=%23ffffff&forecolor=%23000000&blockpixel=12&marginblock=1&logourl=&size=280&kid=cliim&key=210aed8d7dcb52992062272dfd0f2e5f)
 
 ## Build Setup
 
